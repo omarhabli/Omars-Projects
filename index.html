@@ -6,14 +6,12 @@
     <title>Omar Habli's Projects</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        /* General Styling */
         body {
             background: linear-gradient(to right, #6a0dad, #9b5de5);
             color: white;
             font-family: 'Arial', sans-serif;
         }
 
-        /* Navbar Styling */
         .navbar {
             background-color: rgba(0, 0, 0, 0.85);
         }
@@ -46,7 +44,6 @@
             transform: scale(1.05);
         }
 
-        /* Main Section Styling */
         .main-section {
             padding: 50px 20px;
         }
@@ -76,7 +73,6 @@
             border-radius: 50px;
         }
 
-        /* Code Drop-Down Zones */
         .code-zone {
             margin-top: 30px;
         }
@@ -162,11 +158,19 @@
         <div class="description-text">
             <h3>What I Learned:</h3>
             <ul class="bullet-list">
-                <li>Rasa Framework: Expertise in conversational AI applications.</li>
-                <li>Intent Classification: Custom classifiers with PyTorch.</li>
-                <li>Neural Network Design: Layered architectures and activation functions.</li>
-                <li>Training & Optimization: Techniques like Adam optimizer, backpropagation.</li>
-                <li>Integration & Deployment: Pipeline with Rasa and scaling considerations.</li>
+                <li>Utilized Rasa NLU and Rasa Core for designing conversational AI pipelines.</li>
+                <li>Implemented custom intent classification model with PyTorch using neural networks.</li>
+                <li>Defined network architecture with layers, activation functions (ReLU), and loss functions (CrossEntropyLoss).</li>
+                <li>Employed Adam optimizer for gradient descent in training.</li>
+                <li>Preprocessed raw input text with tokenization, lowercasing, and padding for model compatibility.</li>
+                <li>Developed custom text vectorization methods (ASCII encoding or embeddings) for input representation.</li>
+                <li>Used PyTorch’s torch.save and torch.load for model serialization and deserialization.</li>
+                <li>Integrated PyTorch model as a custom Rasa component in the NLU pipeline.</li>
+                <li>Conducted inference using softmax activation for intent prediction and confidence scoring.</li>
+                <li>Evaluated model performance using precision, recall, F1-score, and accuracy.</li>
+                <li>Created custom Rasa components (GraphComponent) for seamless integration of PyTorch classifier.</li>
+                <li>Optimized model for performance and scalability in real-time deployment.</li>
+                <li>Leveraged model fine-tuning techniques for improving generalization and reducing overfitting.</li>
             </ul>
         </div>
         <div>
@@ -175,63 +179,74 @@
         </div>
     </div>
 
-    <!-- Code Drop-Off Zones -->
+    <!-- Code Sections -->
     <div class="code-zone">
-        <button onclick="toggleCode('modelDesign')">Model Design</button>
-        <div id="modelDesign" class="code-content">
-            <pre>
-def build_model(self, num_intents: int):
-    # Neural network with dropout and batch normalization
-    return nn.Sequential(
-        nn.Linear(100, 50),
-        nn.BatchNorm1d(50),
-        nn.ReLU(),
-        nn.Dropout(0.5),
-        nn.Linear(50, num_intents),
-    )
+        <button onclick="toggleCode('modelCode')">View Model Design Code</button>
+        <div class="code-content" id="modelCode">
+<pre><code>version: "3.1"
 
-def text_to_tensor(self, text: Text):
-    # Convert text into fixed-size tensor
-    text = text.strip().lower()
-    max_length = 100
-    vector = [ord(char) % 100 for char in text[:max_length]]  # ASCII-based encoding
-    vector += [0] * (max_length - len(vector))  # Padding
-    return vector
-            </pre>
-        </div>
+intents:
+  - greet
+  - goodbye
+  - inquire_subjects
+  - inquire_tutoring_hours
+  - inquire_tutors
+  - inquire_pricing
+  - inquire_contact
+  - faq_enrollment
+  - faq_cancellation
+  - faq_resources
 
-        <button onclick="toggleCode('trainingLogic')">Training Logic</button>
-        <div id="trainingLogic" class="code-content">
-            <pre>
-<!-- Placeholder for Training Logic Code -->
-            </pre>
-        </div>
+entities:
+  - subject
+  - day
+  - time
 
-        <button onclick="toggleCode('inferenceLogic')">Inference Logic</button>
-        <div id="inferenceLogic" class="code-content">
-            <pre>
-<!-- Placeholder for Inference Logic Code -->
-            </pre>
-        </div>
+slots:
+  subject:
+    type: text
+  day:
+    type: text
+  time:
+    type: text
 
-        <button onclick="toggleCode('config')">config.yml</button>
-        <div id="config" class="code-content">
-            <pre>
-<!-- Placeholder for config.yml Code -->
-            </pre>
-        </div>
+responses:
+  utter_greet:
+    - text: "Hello! Welcome to Smart Step Tutoring. How can I help you today?"
 
-        <button onclick="toggleCode('domain')">domain.yml</button>
-        <div id="domain" class="code-content">
-            <pre>
-<!-- Placeholder for domain.yml Code -->
-            </pre>
+  utter_goodbye:
+    - text: "Thank you for visiting Smart Step Tutoring. Have a great day!"
+
+  utter_inquire_subjects:
+    - text: "We offer tutoring in Math, Science, and English. Which subject do you need help with?"
+
+  utter_inquire_tutoring_hours:
+    - text: "Our tutoring hours are from 9 AM to 8 PM, Monday through Saturday. What time works for you?"
+
+  utter_inquire_tutors:
+    - text: "Our tutors are experienced professionals specializing in K-12 education. Would you like to know more about a specific subject tutor?"
+
+  utter_inquire_pricing:
+    - text: "Our rates vary based on the grade level and subject. Can you provide more details about your needs?"
+
+  utter_inquire_contact:
+    - text: "You can contact us at support@smartsteptutoring.com or call us at (555) 123-4567."
+
+  utter_faq_enrollment:
+    - text: "To enroll, please fill out the form on our website or contact us for assistance."
+
+  utter_faq_cancellation:
+    - text: "You can cancel a session with at least 24 hours' notice to avoid charges."
+
+  utter_faq_resources:
+    - text: "We provide additional learning resources for students, such as worksheets and practice tests."
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+</code></pre>
         </div>
     </div>
 </div>
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
