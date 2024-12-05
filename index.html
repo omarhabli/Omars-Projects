@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Machine Learning Chat Bot - Omar Habli's Projects</title>
+    <title>Omar Habli's Projects</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/styles.css">
     <style>
         /* General Body Styling */
         body {
-            background: linear-gradient(to right, #6a1b9a, #9c27b0);
+            background: linear-gradient(to right, #6a0dad, #9b5de5); /* Purple gradient */
             color: white;
             font-family: 'Arial', sans-serif;
             margin: 0;
@@ -35,8 +35,8 @@
 
         .navbar-brand img {
             height: 40px;
-            border-radius: 50%;
             margin-right: 10px;
+            border-radius: 50%; /* Circular headshot */
         }
 
         .navbar-collapse {
@@ -57,12 +57,13 @@
             font-weight: bold;
             padding: 8px 16px;
             border-radius: 20px;
+            margin-right: 10px;
             transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
         }
 
         .nav-item .nav-btn:hover {
             background-color: white;
-            color: #6a1b9a;
+            color: #6a0dad; /* Purple button text on hover */
             transform: scale(1.05);
         }
 
@@ -90,16 +91,6 @@
             border-radius: 50px;
         }
 
-        /* Content Section */
-        .content-section {
-            padding: 60px 20px;
-        }
-
-        .content-text {
-            font-size: 1.2rem;
-            line-height: 1.8;
-        }
-
         /* Footer */
         footer {
             background-color: rgba(0, 0, 0, 0.9);
@@ -115,7 +106,7 @@
 <!-- Navigation Bar -->
 <nav class="navbar navbar-expand-lg">
     <a class="navbar-brand" href="#">
-        <img src="images/headshot.jpg" alt="Omar Habli">
+        <img src="images/headshot.jpg" alt="Omar's Headshot">
         Omar Habli's Projects
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -124,16 +115,16 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <button class="btn nav-btn" onclick="window.location.href='chatbot.html'">Machine Learning Chat Bot</button>
+                <button class="btn nav-btn" onclick="window.location.href='index.html'">Machine Learning Chat Bot</button>
             </li>
             <li class="nav-item">
-                <button class="btn nav-btn" onclick="window.location.href='macro_robot.html'">MACRO Robot</button>
+                <button class="btn nav-btn" onclick="window.location.href='macro-robot.html'">MACRO Robot</button>
             </li>
             <li class="nav-item">
-                <button class="btn nav-btn" onclick="window.location.href='smartstep_ios.html'">SmartStep Tutoring iOS App</button>
+                <button class="btn nav-btn" onclick="window.location.href='smartstep-ios-app.html'">SmartStep Tutoring iOS App</button>
             </li>
             <li class="nav-item">
-                <button class="btn nav-btn" onclick="window.location.href='react_website.html'">SmartStep Tutoring Website</button>
+                <button class="btn nav-btn" onclick="window.location.href='smartstep-react-website.html'">SmartStep Tutoring Website with React</button>
             </li>
         </ul>
     </div>
@@ -144,24 +135,7 @@
     <section class="content-section">
         <h1 class="mt-5">Machine Learning Chat Bot</h1>
         <div class="divider"></div>
-        <p class="lead">Explore my project on developing a machine learning chatbot using PyTorch, Rasa, and Dialogflow.</p>
-        <div class="content-text">
-            <p>
-                This chatbot project leverages advanced natural language processing techniques to create a conversational agent. 
-                It can respond to queries, hold contextual conversations, and demonstrate intelligent decision-making capabilities.
-            </p>
-            <p>
-                The core technologies include:
-                <ul>
-                    <li><strong>PyTorch:</strong> For deep learning model training and inference.</li>
-                    <li><strong>Rasa/Dialogflow:</strong> For managing intents and providing responses.</li>
-                    <li><strong>Integration:</strong> Seamlessly connects with web and mobile apps for a user-friendly interface.</li>
-                </ul>
-            </p>
-            <p>
-                The chatbot was tested and fine-tuned on real-world datasets to ensure accuracy and reliability in various scenarios.
-            </p>
-        </div>
+        <p class="lead">Discover the AI-powered chatbot developed using cutting-edge machine learning techniques.</p>
     </section>
 </div>
 
