@@ -5,11 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Omar Habli's Projects</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/styles.css">
     <style>
         /* General Body Styling */
         body {
-            background: linear-gradient(to right, #6a0dad, #9b5de5); /* Purple gradient */
+            background: linear-gradient(to right, #6a0dad, #9b5de5);
             color: white;
             font-family: 'Arial', sans-serif;
             margin: 0;
@@ -28,32 +27,21 @@
         }
 
         .navbar-brand {
-            display: flex;
-            align-items: center;
-            margin-left: 20px;
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            margin-left: 10px;
         }
 
         .navbar-brand img {
-            height: 40px;
+            height: 50px;
             margin-right: 10px;
-            border-radius: 50%; /* Circular headshot */
-        }
-
-        .navbar-collapse {
-            display: flex;
-            justify-content: flex-end;
-        }
-
-        .navbar-nav {
-            display: flex;
-            justify-content: flex-end;
-            list-style-type: none;
-            padding-left: 0;
+            border-radius: 50%;
         }
 
         .nav-item .nav-btn {
             border: 2px solid white;
-            color: white;
+            color: #6a0dad;
             font-weight: bold;
             padding: 8px 16px;
             border-radius: 20px;
@@ -63,24 +51,20 @@
 
         .nav-item .nav-btn:hover {
             background-color: white;
-            color: #6a0dad; /* Purple button text on hover */
+            color: #6a0dad;
             transform: scale(1.05);
         }
 
-        /* Header Section */
-        h1 {
-            font-size: 3.5rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            margin: 160px 0 20px; /* Adjusted margin for more space from navbar */
-            letter-spacing: 2px;
-            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+        /* Main Section */
+        .main-section {
+            padding: 100px 20px 50px;
         }
 
-        .lead {
-            font-size: 1.5rem;
-            margin-bottom: 40px;
-            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+        .description img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
         }
 
         .divider {
@@ -91,13 +75,41 @@
             border-radius: 50px;
         }
 
-        /* Footer */
-        footer {
-            background-color: rgba(0, 0, 0, 0.9);
-            color: white;
-            padding: 20px 0;
+        /* Code Drop-off Zones */
+        .code-zone {
             margin-top: 30px;
-            text-align: center;
+        }
+
+        .code-zone button {
+            width: 100%;
+            padding: 15px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 2px solid white;
+            color: white;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .code-zone button:hover {
+            background-color: white;
+            color: #6a0dad;
+            transform: scale(1.05);
+        }
+
+        /* Modal Styles */
+        .modal-header {
+            background-color: #6a0dad;
+            color: white;
+        }
+
+        .modal-body {
+            background-color: #f8f9fa;
+            color: black;
+            font-family: monospace;
+            padding: 20px;
+            border-radius: 10px;
         }
     </style>
 </head>
@@ -106,7 +118,7 @@
 <!-- Navigation Bar -->
 <nav class="navbar navbar-expand-lg">
     <a class="navbar-brand" href="#">
-        <img src="images/headshot.jpg" alt="Omar's Headshot">
+        <img src="images/headshot.png" alt="Omar's Headshot">
         Omar Habli's Projects
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -118,31 +130,74 @@
                 <button class="btn nav-btn" onclick="window.location.href='index.html'">Machine Learning Chat Bot</button>
             </li>
             <li class="nav-item">
-                <button class="btn nav-btn" onclick="window.location.href='macro-robot.html'">MACRO Robot</button>
+                <button class="btn nav-btn" onclick="window.location.href='macro_robot.html'">MACRO Robot</button>
             </li>
             <li class="nav-item">
-                <button class="btn nav-btn" onclick="window.location.href='smartstep-ios-app.html'">SmartStep Tutoring iOS App</button>
+                <button class="btn nav-btn" onclick="window.location.href='ios_app.html'">SmartStep Tutoring iOS App</button>
             </li>
             <li class="nav-item">
-                <button class="btn nav-btn" onclick="window.location.href='smartstep-react-website.html'">SmartStep Tutoring Website with React</button>
+                <button class="btn nav-btn" onclick="window.location.href='react_website.html'">SmartStep Website</button>
             </li>
         </ul>
     </div>
 </nav>
 
-<!-- Main Content -->
-<div class="container text-center">
-    <section class="content-section">
-        <h1 class="mt-5">Machine Learning Chat Bot</h1>
-        <div class="divider"></div>
-        <p class="lead">Discover the AI-powered chatbot developed using cutting-edge machine learning techniques.</p>
-    </section>
+<!-- Main Section -->
+<div class="main-section container">
+    <h1 class="text-center mt-5">Machine Learning Chat Bot</h1>
+    <div class="divider"></div>
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <p>
+                This chatbot leverages a PyTorch-based intent classifier to process and respond to user queries accurately. 
+                It's designed to handle diverse queries by understanding user intents through natural language processing.
+            </p>
+        </div>
+        <div class="col-md-6">
+            <img src="images/chatbot-model.png" alt="Model Diagram" class="img-fluid">
+        </div>
+    </div>
+
+    <!-- Code Drop-Off Zones -->
+    <div class="code-zone">
+        <button data-toggle="modal" data-target="#codeModal">
+            pytorch_intent_classifier.py (Some of the code used in this project)
+        </button>
+    </div>
 </div>
 
-<!-- Footer -->
-<footer>
-    <p>&copy; 2024 Omar Habli. All Rights Reserved.</p>
-</footer>
+<!-- Code Modal -->
+<div class="modal fade" id="codeModal" tabindex="-1" aria-labelledby="codeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="codeModalLabel">pytorch_intent_classifier.py</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <pre>
+# Sample Code
+import torch
+import torch.nn as nn
+
+class IntentClassifier(nn.Module):
+    def __init__(self, input_size, hidden_size, output_size):
+        super(IntentClassifier, self).__init__()
+        self.fc1 = nn.Linear(input_size, hidden_size)
+        self.relu = nn.ReLU()
+        self.fc2 = nn.Linear(hidden_size, output_size)
+
+    def forward(self, x):
+        x = self.relu(self.fc1(x))
+        x = self.fc2(x)
+        return x
+                </pre>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
