@@ -6,14 +6,19 @@
     <title>Omar Habli's Projects</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
+        /* General Body Styling */
         body {
             background: linear-gradient(to right, #6a0dad, #9b5de5);
             color: white;
             font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
         }
 
+        /* Navigation Bar */
         .navbar {
             background-color: rgba(0, 0, 0, 0.85);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
 
         .navbar-brand {
@@ -44,6 +49,7 @@
             transform: scale(1.05);
         }
 
+        /* Main Section */
         .main-section {
             padding: 50px 20px;
         }
@@ -73,6 +79,7 @@
             border-radius: 50px;
         }
 
+        /* Code Drop-Down Zones */
         .code-zone {
             margin-top: 30px;
         }
@@ -96,32 +103,31 @@
             transform: scale(1.05);
         }
 
-        .code-content {
-            display: none;
+        /* Modal Styles */
+        .modal-header {
+            background-color: #6a0dad;
+            color: white;
+        }
+
+        .modal-body {
             background-color: #f8f9fa;
             color: black;
             font-family: monospace;
             padding: 20px;
             border-radius: 10px;
-            margin-top: 10px;
         }
 
+        /* Bullet List */
         .bullet-list {
             list-style-type: disc;
             margin-left: 20px;
             font-size: 1.1rem;
         }
     </style>
-    <script>
-        function toggleCode(id) {
-            const content = document.getElementById(id);
-            content.style.display = content.style.display === "block" ? "none" : "block";
-        }
-    </script>
 </head>
 <body>
 
-<!-- Navbar -->
+<!-- Navigation Bar -->
 <nav class="navbar navbar-expand-lg navbar-dark">
     <a class="navbar-brand" href="#">
         <img src="images/headshot.png" alt="Omar's Headshot">
@@ -153,7 +159,7 @@
     <h1 class="text-center mt-5">Machine Learning Chat Bot</h1>
     <div class="divider"></div>
 
-    <!-- Description -->
+    <!-- Project Description -->
     <div class="row description">
         <div class="description-text">
             <h3>What I Learned:</h3>
@@ -173,17 +179,39 @@
                 <li>Leveraged model fine-tuning techniques for improving generalization and reducing overfitting.</li>
             </ul>
         </div>
-        <div>
+        <div class="images">
             <img src="images/project_visual1.png" alt="Chatbot Visualization 1">
             <img src="images/project_visual2.png" alt="Chatbot Visualization 2">
         </div>
     </div>
 
-    <!-- Code Sections -->
+    <!-- Code Drop-Off Zones -->
     <div class="code-zone">
-        <button onclick="toggleCode('modelCode')">View Model Design Code</button>
-        <div class="code-content" id="modelCode">
-<pre><code>version: "3.1"
+        <button data-toggle="collapse" data-target="#code1">Model Design</button>
+        <div id="code1" class="collapse">
+            <pre>
+# Model Design Code Here
+            </pre>
+        </div>
+
+        <button data-toggle="collapse" data-target="#code2">Training Logic</button>
+        <div id="code2" class="collapse">
+            <pre>
+# Training Logic Code Here
+            </pre>
+        </div>
+
+        <button data-toggle="collapse" data-target="#code3">Inference Logic</button>
+        <div id="code3" class="collapse">
+            <pre>
+# Inference Logic Code Here
+            </pre>
+        </div>
+
+        <button data-toggle="collapse" data-target="#code4">domain.yml</button>
+        <div id="code4" class="collapse">
+            <pre>
+version: "3.1"
 
 intents:
   - greet
@@ -244,9 +272,13 @@ responses:
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
-</code></pre>
+            </pre>
         </div>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
