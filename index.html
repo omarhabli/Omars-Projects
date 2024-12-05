@@ -6,19 +6,16 @@
     <title>Omar Habli's Projects</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        /* General Body Styling */
+        /* General Styling */
         body {
             background: linear-gradient(to right, #6a0dad, #9b5de5);
             color: white;
             font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
         }
 
-        /* Navigation Bar */
+        /* Navbar Styling */
         .navbar {
-            background-color: #6a0dad;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            background-color: rgba(0, 0, 0, 0.85);
         }
 
         .navbar-brand {
@@ -35,7 +32,7 @@
 
         .nav-item .nav-btn {
             border: 2px solid white;
-            color: white;
+            color: black;
             font-weight: bold;
             padding: 8px 16px;
             border-radius: 20px;
@@ -49,7 +46,7 @@
             transform: scale(1.05);
         }
 
-        /* Main Section */
+        /* Main Section Styling */
         .main-section {
             padding: 50px 20px;
         }
@@ -84,7 +81,7 @@
             margin-top: 30px;
         }
 
-        .dropdown-toggle {
+        .code-zone button {
             width: 100%;
             padding: 15px;
             background-color: rgba(0, 0, 0, 0.7);
@@ -97,42 +94,38 @@
             transition: transform 0.3s ease, background-color 0.3s ease;
         }
 
-        .dropdown-toggle:hover {
+        .code-zone button:hover {
             background-color: white;
             color: #6a0dad;
             transform: scale(1.05);
         }
 
-        .dropdown-menu {
-            background-color: rgba(0, 0, 0, 0.85);
-            color: white;
-        }
-
-        /* Modal Styles */
-        .modal-header {
-            background-color: #6a0dad;
-            color: white;
-        }
-
-        .modal-body {
+        .code-content {
+            display: none;
             background-color: #f8f9fa;
             color: black;
             font-family: monospace;
             padding: 20px;
             border-radius: 10px;
+            margin-top: 10px;
         }
 
-        /* Bullet List */
         .bullet-list {
             list-style-type: disc;
             margin-left: 20px;
             font-size: 1.1rem;
         }
     </style>
+    <script>
+        function toggleCode(id) {
+            const content = document.getElementById(id);
+            content.style.display = content.style.display === "block" ? "none" : "block";
+        }
+    </script>
 </head>
 <body>
 
-<!-- Navigation Bar -->
+<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark">
     <a class="navbar-brand" href="#">
         <img src="images/headshot.png" alt="Omar's Headshot">
@@ -164,7 +157,7 @@
     <h1 class="text-center mt-5">Machine Learning Chat Bot</h1>
     <div class="divider"></div>
 
-    <!-- Project Description -->
+    <!-- Description -->
     <div class="row description">
         <div class="description-text">
             <h3>What I Learned:</h3>
@@ -176,71 +169,69 @@
                 <li>Integration & Deployment: Pipeline with Rasa and scaling considerations.</li>
             </ul>
         </div>
-        <div class="images">
+        <div>
             <img src="images/project_visual1.png" alt="Chatbot Visualization 1">
             <img src="images/project_visual2.png" alt="Chatbot Visualization 2">
         </div>
     </div>
 
-    <!-- Code Drop-Off Zones (Dropdowns) -->
+    <!-- Code Drop-Off Zones -->
     <div class="code-zone">
-        <div class="dropdown">
-            <button class="btn dropdown-toggle" type="button" id="modelDesignDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Model Design
-            </button>
-            <div class="dropdown-menu" aria-labelledby="modelDesignDropdown">
-                <pre><code>
-# Model Design Code Here
-                </code></pre>
-            </div>
+        <button onclick="toggleCode('modelDesign')">Model Design</button>
+        <div id="modelDesign" class="code-content">
+            <pre>
+def build_model(self, num_intents: int):
+    # Neural network with dropout and batch normalization
+    return nn.Sequential(
+        nn.Linear(100, 50),
+        nn.BatchNorm1d(50),
+        nn.ReLU(),
+        nn.Dropout(0.5),
+        nn.Linear(50, num_intents),
+    )
+
+def text_to_tensor(self, text: Text):
+    # Convert text into fixed-size tensor
+    text = text.strip().lower()
+    max_length = 100
+    vector = [ord(char) % 100 for char in text[:max_length]]  # ASCII-based encoding
+    vector += [0] * (max_length - len(vector))  # Padding
+    return vector
+            </pre>
         </div>
 
-        <div class="dropdown">
-            <button class="btn dropdown-toggle" type="button" id="domainYamlDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                domain.yml
-            </button>
-            <div class="dropdown-menu" aria-labelledby="domainYamlDropdown">
-                <pre><code>
-version: "3.1"
-intents:
-  - greet
-  - goodbye
-  - inquire_subjects
-  - inquire_tutoring_hours
-  - inquire_tutors
-  - inquire_pricing
-  - inquire_contact
-  - faq_enrollment
-  - faq_cancellation
-  - faq_resources
-entities:
-  - subject
-  - day
-  - time
-slots:
-  subject:
-    type: text
-  day:
-    type: text
-  time:
-    type: text
-responses:
-  utter_greet:
-    - text: "Hello! Welcome to Smart Step Tutoring. How can I help you today?"
-  utter_goodbye:
-    - text: "Thank you for visiting Smart Step Tutoring. Have a great day!"
-                </code></pre>
-            </div>
+        <button onclick="toggleCode('trainingLogic')">Training Logic</button>
+        <div id="trainingLogic" class="code-content">
+            <pre>
+<!-- Placeholder for Training Logic Code -->
+            </pre>
+        </div>
+
+        <button onclick="toggleCode('inferenceLogic')">Inference Logic</button>
+        <div id="inferenceLogic" class="code-content">
+            <pre>
+<!-- Placeholder for Inference Logic Code -->
+            </pre>
+        </div>
+
+        <button onclick="toggleCode('config')">config.yml</button>
+        <div id="config" class="code-content">
+            <pre>
+<!-- Placeholder for config.yml Code -->
+            </pre>
+        </div>
+
+        <button onclick="toggleCode('domain')">domain.yml</button>
+        <div id="domain" class="code-content">
+            <pre>
+<!-- Placeholder for domain.yml Code -->
+            </pre>
         </div>
     </div>
 </div>
 
-<!-- Code Modals (Keep these for other code blocks) -->
-<!-- Modal code omitted for brevity, but keep the modal structure as in your original code -->
-
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
 </body>
 </html>
