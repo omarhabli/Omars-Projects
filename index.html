@@ -22,7 +22,7 @@
             top: 0;
             width: 100%;
             z-index: 10;
-            background-color: rgba(0, 0, 0, 0.85);
+            background-color: #5f3f8e; /* Changed to a darker purple for better visibility */
             padding: 10px 0;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
@@ -138,6 +138,7 @@
             display: flex;
             justify-content: center;
             gap: 30px;
+            margin-top: 30px;
         }
 
         .image-container img {
@@ -185,27 +186,30 @@
         <!-- Image Section -->
         <div class="image-container">
             <img src="images/chatbot_model_image.png" alt="Chatbot Model" class="img-fluid">
-            <div class="text-left">
-                <h4>What I Learned:</h4>
-                <ul class="list-unstyled">
-                    <li>Rasa Framework: Gained expertise in using Rasa to create conversational AI applications, focusing on its NLU (Natural Language Understanding) and Core (dialogue management) components.</li>
-                    <li>Intent Classification: Learned how to train a custom intent classifier using PyTorch to categorize user input into predefined intents, leveraging neural networks.</li>
-                    <li>PyTorch Neural Networks: Implemented a custom neural network model using PyTorch, including defining layers, activation functions (e.g., ReLU), and loss functions (e.g., CrossEntropyLoss) for supervised learning.</li>
-                    <li>Training and Optimization: Utilized optimization techniques (e.g., Adam optimizer) and backpropagation to minimize the loss function during the model's training phase, improving the accuracy of the intent classifier.</li>
-                    <li>Data Preprocessing: Applied text preprocessing techniques such as tokenization, normalization (e.g., converting to lowercase), and padding to convert raw user input into a format suitable for neural network processing.</li>
-                    <li>Text Vectorization: Developed methods to represent text as numerical vectors, such as ASCII-based encoding or custom embeddings, to feed into the neural network.</li>
-                    <li>Model Persistence: Implemented model saving and loading mechanisms using PyTorch's torch.save and torch.load for storing trained models and reloading them for inference.</li>
-                    <li>Integration with Rasa: Integrated the custom PyTorch model into the Rasa ecosystem, ensuring it processed user input as part of the NLU pipeline and outputted intents with confidence scores.</li>
-                    <li>Inference and Prediction: Learned to use the trained model for inference, processing new user messages and predicting intents with confidence scores, enabling dynamic response generation.</li>
-                    <li>Evaluation: Gained knowledge on evaluating the model's performance using metrics such as accuracy, precision, recall, and F1-score, while fine-tuning model parameters for better generalization.</li>
-                    <li>Rasa Custom Components: Built custom Rasa components (e.g., GraphComponent) to plug the PyTorch intent classifier into the Rasa pipeline, allowing seamless integration into Rasa's architecture.</li>
-                    <li>Scalability Considerations: Explored techniques for improving model scalability and handling larger datasets for real-world deployment of a chatbot.</li>
-                    <li>Deployment Preparation: Learned how to prepare the model for deployment in a production environment by ensuring efficient model loading and processing for real-time interactions.</li>
-                </ul>
-            </div>
+            <img src="images/chatbot_integration_image.png" alt="Chatbot Integration" class="img-fluid">
         </div>
 
-        <!-- Code Dropdowns -->
+        <!-- What I Learned Section -->
+        <div class="text-left" style="margin-top: 30px;">
+            <h4>What I Learned:</h4>
+            <ul class="list-unstyled">
+                <li>Rasa Framework: Gained expertise in using Rasa to create conversational AI applications, focusing on its NLU (Natural Language Understanding) and Core (dialogue management) components.</li>
+                <li>Intent Classification: Learned how to train a custom intent classifier using PyTorch to categorize user input into predefined intents, leveraging neural networks.</li>
+                <li>PyTorch Neural Networks: Implemented a custom neural network model using PyTorch, including defining layers, activation functions (e.g., ReLU), and loss functions (e.g., CrossEntropyLoss) for supervised learning.</li>
+                <li>Training and Optimization: Utilized optimization techniques (e.g., Adam optimizer) and backpropagation to minimize the loss function during the model's training phase, improving the accuracy of the intent classifier.</li>
+                <li>Data Preprocessing: Applied text preprocessing techniques such as tokenization, normalization (e.g., converting to lowercase), and padding to convert raw user input into a format suitable for neural network processing.</li>
+                <li>Text Vectorization: Developed methods to represent text as numerical vectors, such as ASCII-based encoding or custom embeddings, to feed into the neural network.</li>
+                <li>Model Persistence: Implemented model saving and loading mechanisms using PyTorch's torch.save and torch.load for storing trained models and reloading them for inference.</li>
+                <li>Integration with Rasa: Integrated the custom PyTorch model into the Rasa ecosystem, ensuring it processed user input as part of the NLU pipeline and outputted intents with confidence scores.</li>
+                <li>Inference and Prediction: Learned to use the trained model for inference, processing new user messages and predicting intents with confidence scores, enabling dynamic response generation.</li>
+                <li>Evaluation: Gained knowledge on evaluating the model's performance using metrics such as accuracy, precision, recall, and F1-score, while fine-tuning model parameters for better generalization.</li>
+                <li>Rasa Custom Components: Built custom Rasa components (e.g., GraphComponent) to plug the PyTorch intent classifier into the Rasa pipeline, allowing seamless integration into Rasa's architecture.</li>
+                <li>Scalability Considerations: Explored techniques for improving model scalability and handling larger datasets for real-world deployment of a chatbot.</li>
+                <li>Deployment Preparation: Learned how to prepare the model for deployment in a production environment by ensuring efficient model loading and processing for real-time interactions.</li>
+            </ul>
+        </div>
+
+        <!-- Dropdown Menus for Code -->
         <div class="dropdown">
             <button class="btn btn-primary dropdown-toggle" type="button" id="modelDesignDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Model Design (Enhanced intent classification using a custom PyTorch model)
@@ -229,80 +233,6 @@ def text_to_tensor(self, text: Text):
     vector = [ord(char) % 100 for char in text[:max_length]]  # ASCII-based encoding
     vector += [0] * (max_length - len(vector))  # Padding
     return vector
-                </code></pre>
-            </div>
-        </div>
-
-        <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" id="trainingLogicDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Training Logic (Enhanced intent classification using a custom PyTorch model)
-            </button>
-            <div class="dropdown-menu" aria-labelledby="trainingLogicDropdown">
-                <pre><code>
-# Sample code for training logic
-optimizer = optim.Adam(model.parameters(), lr=0.001)
-for epoch in range(num_epochs):
-    model.train()
-    for inputs, labels in train_loader:
-        optimizer.zero_grad()
-        outputs = model(inputs)
-        loss = criterion(outputs, labels)
-        loss.backward()
-        optimizer.step()
-                </code></pre>
-            </div>
-        </div>
-
-        <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" id="inferenceLogicDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Inference Logic (Enhanced intent classification using a custom PyTorch model)
-            </button>
-            <div class="dropdown-menu" aria-labelledby="inferenceLogicDropdown">
-                <pre><code>
-# Sample code for inference logic
-model.eval()
-with torch.no_grad():
-    inputs = torch.tensor(processed_input)
-    outputs = model(inputs)
-    predicted_class = torch.argmax(outputs, dim=1)
-                </code></pre>
-            </div>
-        </div>
-
-        <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" id="configYamlDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                config.yml (Enhanced intent classification using a custom PyTorch model)
-            </button>
-            <div class="dropdown-menu" aria-labelledby="configYamlDropdown">
-                <pre><code>
-version: "3.1"
-intents:
-  - greet
-  - goodbye
-  - inquire_subjects
-  - inquire_tutoring_hours
-  - inquire_tutors
-  - inquire_pricing
-  - inquire_contact
-  - faq_enrollment
-  - faq_cancellation
-  - faq_resources
-entities:
-  - subject
-  - day
-  - time
-slots:
-  subject:
-    type: text
-  day:
-    type: text
-  time:
-    type: text
-responses:
-  utter_greet:
-    - text: "Hello! Welcome to Smart Step Tutoring. How can I help you today?"
-  utter_goodbye:
-    - text: "Thank you for visiting Smart Step Tutoring. Have a great day!"
                 </code></pre>
             </div>
         </div>
