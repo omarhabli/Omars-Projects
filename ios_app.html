@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartStep Tutoring iOS App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* General Styling */
+        body {
+            background: linear-gradient(to right, #6a0dad, #9b5de5);
+            color: white;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.85);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar-brand {
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .main-section {
+            padding: 50px 20px;
+        }
+
+        .objective {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .divider {
+            width: 100px;
+            height: 5px;
+            background: white;
+            margin: 20px auto 40px;
+            border-radius: 50px;
+        }
+
+        .description {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .description img {
+            flex: 1;
+            max-width: 48%;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .description-text {
+            flex: 2;
+        }
+
+        .code-zone button {
+            width: 100%;
+            padding: 15px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 2px solid white;
+            color: white;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .code-zone button:hover {
+            background-color: white;
+            color: #6a0dad;
+            transform: scale(1.05);
+        }
+
+        .code-content {
+            display: none;
+            padding: 15px;
+            background-color: #f8f9fa;
+            color: black;
+            font-family: monospace;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <a class="navbar-brand" href="#">Omar Habli's Projects</a>
+</nav>
+
+<div class="main-section container">
+    <h1 class="text-center mt-5">SmartStep Tutoring iOS App</h1>
+    <div class="divider"></div>
+
+    <!-- Objective Statement -->
+    <div class="objective">
+        <p>
+            <strong>Objective:</strong> Currently developing this app to promote my self-started business: 
+            <strong>SmartStep Tutoring LLC.</strong> This app streamlines the tutoring experience for both students and tutors 
+            by offering convenient features like secure login, personalized scheduling, and integration with real-time backend systems.
+        </p>
+    </div>
+
+    <!-- Project Description -->
+    <div class="row description">
+        <div class="description-text">
+            <h3>What I Learned:</h3>
+            <ul class="bullet-list">
+                <li>Designed the app in Xcode using <strong>SwiftUI</strong> for a responsive and modern user interface.</li>
+                <li>Implemented a <strong>Firebase Authentication</strong> system to securely manage user logins.</li>
+                <li>Set up Google OAuth2 permissions to enable Google account integration, streamlining user access.</li>
+                <li>Developed a Python-based <strong>Flask backend server</strong> hosted on Heroku to handle API requests.</li>
+                <li>Connected the backend to the <strong>Google Sheets API</strong> for real-time schedule verification and data storage.</li>
+                <li>Employed asynchronous API calls for a seamless user experience with data retrieval and updates.</li>
+                <li>Utilized Firebase Firestore for managing user data like session history, preferences, and schedule.</li>
+                <li>Configured the <strong>Google Project API</strong> to securely link with external services, ensuring robust communication.</li>
+                <li>Added support for multi-platform compatibility and scalability for future updates and growth.</li>
+            </ul>
+        </div>
+        <div class="images">
+            <img src="images/ios_login.png" alt="iOS App Login Screen">
+            <img src="images/ios_dashboard.png" alt="iOS App Dashboard">
+        </div>
+    </div>
+
+    <!-- Code Section -->
+    <div class="code-zone mt-5">
+        <button onclick="toggleContent('code1')">ContentView (Click Me!)</button>
+        <div id="code1" class="code-content">
+            <pre>
+import SwiftUI
+import FirebaseCore
+import Firebase
+import FirebaseAuth
+import GoogleSignIn
+
+// Main Content View
+struct ContentView: View {
+    @State private var isLoggedIn = false
+    @State private var scheduledTimes: [String] = []
+    @State private var imageUrl: String = ""
+    let options = ["Math", "Reading/English", "Sciences", "Contact Us", "Show Time"]
+    
+    var body: some View {
+        NavigationView {
+            if isLoggedIn {
+                mainContentView()
+            } else {
+                LoginView(isLoggedIn: $isLoggedIn, scheduledTimes: $scheduledTimes, imageUrl: $imageUrl)
+            }
+        }
+        .onAppear {
+            checkIfLoggedIn()
+        }
+    }
+    
+    private func checkIfLoggedIn() {
+        if Auth.auth().currentUser != nil {
+            isLoggedIn = true
+        }
+    }
+    
+    private func mainContentView() -> some View {
+        VStack {
+            Text("Welcome to SmartStep Tutoring")
+                .font(.largeTitle)
+                .padding()
+            Spacer()
+            GridStack(rows: 3, columns: 2) { row, col in
+                let index = row * 2 + col
+                if index < options.count {
+                    NavigationLink(destination: descriptionView(for: options[index])) {
+                        Text(options[index])
+                            .font(.title)
+                            .padding()
+                            .background(self.buttonColor(for: index))
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                            .frame(maxWidth: .infinity)
+                    }
+                    .padding()
+                }
+            }
+            Spacer()
+            Button(action: signOut) {
+                Text("Sign Out")
+                    .padding()
+                    .background(Color.red)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+            }
+            .padding()
+        }
+        .padding()
+    }
+    
+    private func signOut() {
+        do {
+            try Auth.auth().signOut()
+            isLoggedIn = false
+        } catch {
+            print("Error signing out: \(error.localizedDescription)")
+        }
+    }
+    
+    private func descriptionView(for option: String) -> some View {
+        switch option {
+        case "Math":
+            return AnyView(MathView())
+        case "Reading/English":
+            return AnyView(ReadingEnglishView())
+        case "Sciences":
+            return AnyView(SciencesView())
+        case "Contact Us":
+            return AnyView(OtherView())
+        case "Show Time":
+            return AnyView(TimeView(scheduledTimes: scheduledTimes, imageUrl: imageUrl))
+        default:
+            return AnyView(UnknownView())
+        }
+    }
+    
+    private func buttonColor(for index: Int) -> Color {
+        switch index {
+        case 0: return Color.blue
+        case 1: return Color.red
+        case 2: return Color.green
+        case 3: return Color.orange
+        case 4: return Color.purple
+        default: return Color.gray
+        }
+    }
+}
+
+// Login View
+struct LoginView: View {
+    @Binding var isLoggedIn: Bool
+    @Binding var scheduledTimes: [String]
+    @Binding var imageUrl: String
+    
+    var body: some View {
+        VStack {
+            Text("SmartStep Tutoring")
+                .font(.largeTitle)
+                .padding()
+            Button(action: signInWithGoogle) {
+                Text("Sign in with Google")
+                    .padding()
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+            }
+        }
+        .padding()
+    }
+    
+    func signInWithGoogle() {
+        guard let clientID = FirebaseApp.app()?.options.clientID else {
+            print("Error: Unable to retrieve clientID")
+            return
+        }
+
+        GIDSignIn.sharedInstance.configuration = GIDConfiguration(clientID: clientID)
+
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let rootVC = windowScene.windows.first?.rootViewController else {
+            print("Error: Unable to find root view controller")
+            return
+        }
+
+        GIDSignIn.sharedInstance.signIn(withPresenting: rootVC) { result, error in
+            if let error = error {
+                print("Error signing in: \(error.localizedDescription)")
+                return
+            }
+
+            guard let user = result?.user, let email = user.profile?.email else {
+                print("Error: User not found or email is nil")
+                return
+            }
+
+            isLoggedIn = true
+            sendEmailToBackend(email: email)
+        }
+    }
+
+    private func sendEmailToBackend(email: String) {
+        guard let url = URL(string: "http://127.0.0.1:5000/check_email") else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        let json: [String: Any] = ["Email": email]
+        let jsonData = try? JSONSerialization.data(withJSONObject: json)
+        request.httpBody = jsonData
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Error sending email to backend: \(error.localizedDescription)")
+                return
+            }
+            if let data = data {
+                do {
+                    if let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                       let exists = jsonResponse["exists"] as? Bool {
+                        DispatchQueue.main.async {
+                            if exists {
+                                // User exists, update UI
+                                scheduledTimes = jsonResponse["scheduled_times"] as? [String] ?? []
+                                imageUrl = jsonResponse["image_url"] as? String ?? ""
+                            } else {
+                                print("User not signed up.")
+                            }
+                        }
+                    }
+                } catch {
+                    print("Error parsing response: \(error.localizedDescription)")
+                }
+            }
+        }
+        task.resume()
+    }
+}
+
+// GridStack definition to create a grid layout
+struct GridStack<Content: View>: View {
+    let rows: Int
+    let columns: Int
+    let content: (Int, Int) -> Content
+    
+    init(rows: Int, columns: Int, @ViewBuilder content: @escaping (Int, Int) -> Content) {
+        self.rows = rows
+        self.columns = columns
+        self.content = content
+    }
+    
+    var body: some View {
+        VStack {
+            ForEach(0..<rows, id: \.self) { row in
+                HStack {
+                    ForEach(0..<columns, id: \.self) { column in
+                        self.content(row, column)
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Sample Description Views
+struct MathView: View {
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 20) {
+                Text("Math")
+                    .font(.largeTitle)
+                    .padding(.top)
+                Text("Comprehensive math courses covering everything from basic arithmetic to advanced calculus.")
+                Spacer()
+            }
+            .padding()
+        }
+        .navigationTitle("Math")
+    }
+}
+
+struct ReadingEnglishView: View {
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 20) {
+                Text("Reading/English")
+                    .font(.largeTitle)
+                    .padding(.top)
+                Text("Courses designed to enhance students' literacy skills.")
+                Spacer()
+            }
+            .padding()
+        }
+        .navigationTitle("Reading/English")
+    }
+}
+
+struct SciencesView: View {
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 20) {
+                Text("Sciences")
+                    .font(.largeTitle)
+                    .padding(.top)
+                Text("Our Science curriculum covers various fields such as Biology, Chemistry, and Physics.")
+                Spacer()
+            }
+            .padding()
+        }
+        .navigationTitle("Sciences")
+    }
+}
+
+struct OtherView: View {
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 20) {
+                Text("Contact Us")
+                    .font(.largeTitle)
+                    .padding(.top)
+                Text("If you have any questions, please reach out to us at: support@smartsteptutoring.com.")
+                Spacer()
+            }
+            .padding()
+        }
+        .navigationTitle("Contact Us")
+    }
+}
+
+// Time View
+struct TimeView: View {
+    var scheduledTimes: [String]
+    var imageUrl: String
+    
+    var body: some View {
+        VStack {
+            if let imageURL = URL(string: imageUrl), !imageUrl.isEmpty {
+                AsyncImage(url: imageURL) { phase in
+                    switch phase {
+                    case .empty:
+                        ProgressView()
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 200, height: 200) // Adjust the frame size as needed
+                    case .failure(let error):
+                        Text("Error loading image: \(error.localizedDescription)")
+                    @unknown default:
+                        fatalError()
+                    }
+                }
+            } else {
+                Text("Whoops! Looks like you aren't signed up. Contact us to get a personalized schedule.")
+                    .font(.headline)
+                    .padding()
+            }
+        }
+        .navigationTitle("Image View")
+        .padding()
+    }
+}
+
+struct UnknownView: View {
+    var body: some View {
+        Text("Unknown option.")
+            .font(.largeTitle)
+            .padding()
+    }
+}
+            </pre>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleContent(id) {
+        const content = document.getElementById(id);
+        content.style.display = content.style.display === 'none' || content.style.display === '' ? 'block' : 'none';
+    }
+</script>
+</body>
+</html>
