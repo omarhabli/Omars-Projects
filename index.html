@@ -177,6 +177,7 @@
     <div class="code-zone">
         <button onclick="toggleContent('code1')">Model Design (Click Me and All Other Buttons to See More Code!)</button>
         <div id="code1" class="code-content">
+            <pre>
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -220,6 +221,7 @@ def text_to_tensor(text: Text, max_length: int = 100):
     vector = [ord(char) % 100 for char in text[:max_length]]
     vector += [0] * (max_length - len(vector))
     return vector
+        <pre>
 </div>
 
         <button onclick="toggleContent('code2')">Training Logic</button>
