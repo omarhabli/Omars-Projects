@@ -80,6 +80,14 @@
             border-radius: 10px;
             margin-top: 10px;
         }
+
+        .objective img {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
@@ -114,22 +122,28 @@
     <h1 class="text-center mt-5">SmartStep Tutoring iOS App</h1>
     <div class="divider"></div>
 
-    <div class="objective">
-        <p>
-            <strong>Objective:</strong> Currently developing this app to promote my self-started business:
-            <strong>SmartStep Tutoring LLC.</strong>
-        </p>
-        <ul>
-            <li>Designed the app in Xcode using <strong>SwiftUI</strong> for a responsive and modern user interface.</li>
-            <li>Implemented a <strong>Firebase Authentication</strong> system to securely manage user logins.</li>
-            <li>Set up Google OAuth2 permissions to enable Google account integration, streamlining user access.</li>
-            <li>Developed a Python-based <strong>Flask backend server</strong> hosted on Heroku to handle API requests.</li>
-            <li>Connected the backend to the <strong>Google Sheets API</strong> for real-time schedule verification and data storage.</li>
-            <li>Employed asynchronous API calls for a seamless user experience with data retrieval and updates.</li>
-            <li>Utilized Firebase Firestore for managing user data like session history, preferences, and schedule.</li>
-            <li>Configured the <strong>Google Project API</strong> to securely link with external services, ensuring robust communication.</li>
-            <li>Added support for multi-platform compatibility and scalability for future updates and growth.</li>
-        </ul>
+    <div class="objective row">
+        <div class="col-md-6">
+            <p>
+                <strong>Objective:</strong> Currently developing this app to promote my self-started business:
+                <strong>SmartStep Tutoring LLC.</strong>
+            </p>
+            <ul>
+                <li>Designed the app in Xcode using <strong>SwiftUI</strong> for a responsive and modern user interface.</li>
+                <li>Implemented a <strong>Firebase Authentication</strong> system to securely manage user logins.</li>
+                <li>Set up Google OAuth2 permissions to enable Google account integration, streamlining user access.</li>
+                <li>Developed a Python-based <strong>Flask backend server</strong> hosted on Heroku to handle API requests.</li>
+                <li>Connected the backend to the <strong>Google Sheets API</strong> for real-time schedule verification and data storage.</li>
+                <li>Employed asynchronous API calls for a seamless user experience with data retrieval and updates.</li>
+                <li>Utilized Firebase Firestore for managing user data like session history, preferences, and schedule.</li>
+                <li>Configured the <strong>Google Project API</strong> to securely link with external services, ensuring robust communication.</li>
+                <li>Added support for multi-platform compatibility and scalability for future updates and growth.</li>
+            </ul>
+        </div>
+        <div class="col-md-6 text-center">
+            <img src="images/app-design.jpg" alt="App Design Screenshot">
+            <img src="images/backend-architecture.jpg" alt="Backend Architecture Screenshot">
+        </div>
     </div>
 
     <div class="code-zone mt-5">
@@ -145,26 +159,7 @@
         <button onclick="toggleContent('code2')">Python Backend Flask Code (Click Me!)</button>
         <div id="code2" class="code-content">
             <pre>
-from flask import Flask, request, jsonify
-
-app = Flask(__name__)
-
-# Endpoint to check email
-@app.route('/check_email', methods=['POST'])
-def check_email():
-    data = request.get_json()
-    email = data.get('Email')
-    if email:
-        # Mock response
-        return jsonify({
-            "exists": True,
-            "scheduled_times": ["9:00 AM - Math", "10:30 AM - Science"],
-            "image_url": "https://example.com/image.png"
-        })
-    return jsonify({"error": "No email provided"}), 400
-
-if __name__ == '__main__':
-    app.run(debug=True)
+#place python code here
             </pre>
         </div>
     </div>
