@@ -175,8 +175,51 @@
 
     <!-- Code Sections -->
     <div class="code-zone">
-        <button onclick="toggleContent('code1')">Model Design</button>
-        <div id="code1" class="code-content">Your Model Design Code Goes Here</div>
+        <button onclick="toggleContent('code1')">Model Design (Click Me and All Other Buttons to See More Code!)</button>
+        <div id="code1" class="code-content">import torch
+import torch.nn as nn
+import torch.optim as optim
+from typing import Any, Dict, List, Text, Optional
+
+class SelfAttention(nn.Module):
+    def __init__(self, input_dim: int):
+        super(SelfAttention, self).__init__()
+        self.query = nn.Linear(input_dim, input_dim)
+        self.key = nn.Linear(input_dim, input_dim)
+        self.value = nn.Linear(input_dim, input_dim)
+        self.softmax = nn.Softmax(dim=-1)
+
+    def forward(self, x):
+        Q = self.query(x)
+        K = self.key(x)
+        V = self.value(x)
+        attention_scores = self.softmax(torch.matmul(Q, K.transpose(-2, -1)))
+        return torch.matmul(attention_scores, V)
+
+class AdvancedIntentClassifierModel(nn.Module):
+    def __init__(self, input_dim: int, num_intents: int):
+        super(AdvancedIntentClassifierModel, self).__init__()
+        self.layers = nn.Sequential(
+            nn.Linear(input_dim, 128), 
+            nn.ReLU(),
+            nn.Dropout(0.3),
+            SelfAttention(128), 
+            nn.Linear(128, 64), 
+            nn.BatchNorm1d(64),
+            nn.ReLU(),
+            nn.Dropout(0.5),
+            nn.Linear(64, num_intents)
+        )
+
+    def forward(self, x):
+        return self.layers(x)
+
+def text_to_tensor(text: Text, max_length: int = 100):
+    text = text.strip().lower()
+    vector = [ord(char) % 100 for char in text[:max_length]]
+    vector += [0] * (max_length - len(vector))
+    return vector
+</div>
 
         <button onclick="toggleContent('code2')">Training Logic</button>
         <div id="code2" class="code-content">Your Training Logic Code Goes Here</div>
