@@ -471,7 +471,55 @@ if __name__ == "__main__":
         <button onclick="toggleCode('code2')">Speed Control Code</button>
         <div id="code2" class="code-content">
             <pre>
-#speed code here
+import time
+from buildhat import Motor
+from basehat import HallSensor
+
+# Constants for motor speeds and distances
+WHEEL_DIAMETER = 25.93384735538
+CM_PER_SEC = 35.5 # Input this value to go desired speed
+DISTANCE = 300
+
+# Initialize motors
+dropper = Motor('D')
+left_motor = Motor('B')
+right_motor = Motor('A')
+#left_motor.bias(0)
+
+
+# Initialize sensors
+hall = HallSensor(5)
+
+
+def main():
+    try:
+        while(True):
+            left_motor.pwm(0.975 * (CM_PER_SEC + 7.58) / -85)
+            right_motor.pwm(1.02 * (CM_PER_SEC + 7.58) / 85)
+
+
+            # with open('speed_tests.txt', 'w') as out:
+            #     motor_speed = 0.1
+            #     while(motor_speed <= 1):
+                
+            #         left_start_rotations = left_motor.get_position() / 360
+            #         right_motor_rotations = right_motor.get_position() / 360
+            #         left_motor.pwm(-motor_speed)
+            #         right_motor.pwm(motor_speed)
+            #         time.sleep(8)
+            #         #outputs distance traveled by left motor
+            #         out.writelines(str(((left_motor.get_position() / 360) - left_start_rotations) * WHEEL_DIAMETER))
+            #         left_motor.pwm(0)
+            #         right_motor.pwm(0)
+            #         motor_speed += 0.1
+            #         time.sleep(5)
+    except KeyboardInterrupt:
+        left_motor.pwm(0)
+        right_motor.pwm(0)
+        print("Done")
+        
+if __name__ == "__main__":
+    main()
             </pre>
         </div>
     </div>
