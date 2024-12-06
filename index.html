@@ -221,20 +221,252 @@ def text_to_tensor(text: Text, max_length: int = 100):
     vector = [ord(char) % 100 for char in text[:max_length]]
     vector += [0] * (max_length - len(vector))
     return vector
-        <pre>
+        </pre>
 </div>
 
         <button onclick="toggleContent('code2')">Training Logic</button>
-        <div id="code2" class="code-content">Your Training Logic Code Goes Here</div>
+        <div id="code2" class="code-content">
+            <pre>
+class AdvancedPytorchIntentClassifier:
+    def __init__(self, num_intents: int):
+        self.num_intents = num_intents
+        self.model = AdvancedIntentClassifierModel(100, num_intents)  # Input size: 100
+        self.optimizer = optim.Adam(self.model.parameters(), lr=0.001)
+        self.criterion = nn.CrossEntropyLoss()
+        self.scheduler = optim.lr_scheduler.CosineAnnealingLR(self.optimizer, T_max=20, eta_min=0.0001)
+        self.intents = []
+        self.model_path = "advanced_model.pth"
+
+    def train(self, input_texts: List[torch.Tensor], labels: List[torch.Tensor], epochs: int = 50):
+        self.model.train()
+        for epoch in range(epochs):
+            running_loss = 0.0
+            for text_tensor, label_tensor in zip(input_texts, labels):
+                self.optimizer.zero_grad()
+                outputs = self.model(text_tensor.unsqueeze(0).float())
+                loss = self.criterion(outputs, label_tensor.unsqueeze(0))
+                loss.backward()
+                self.optimizer.step()
+                running_loss += loss.item()
+
+            self.scheduler.step()
+            print(f"Epoch [{epoch + 1}/{epochs}], Loss: {running_loss / len(input_texts)}")
+
+        torch.save(
+            {"model_state_dict": self.model.state_dict(), "intents": self.intents},
+            self.model_path,
+        )
+
+    def prepare_training_data(self, training_data: List[Dict[Text, Any]]):
+        input_texts = []
+        labels = []
+        for example in training_data:
+            text = example.get("text")
+            intent = example.get("intent")
+            if text and intent:
+                text_tensor = torch.tensor(text_to_tensor(text), dtype=torch.float32)
+                label_tensor = torch.tensor(self.intents.index(intent), dtype=torch.long)
+                input_texts.append(text_tensor)
+                labels.append(label_tensor)
+        return input_texts, labels
+
+    def load_model(self):
+        if torch.exists(self.model_path):
+            checkpoint = torch.load(self.model_path)
+            self.model.load_state_dict(checkpoint["model_state_dict"])
+            self.intents = checkpoint["intents"]
+            self.model.eval()
+            </pre>
+        </div>
 
         <button onclick="toggleContent('code3')">Inference Logic</button>
-        <div id="code3" class="code-content">Your Inference Logic Code Goes Here</div>
+        <div id="code3" class="code-content">
+            <pre>
+class AdvancedPytorchIntentClassifier:
+    # Ensure initialization and loading logic remain here as well.
+    def __init__(self, num_intents: int):
+        self.num_intents = num_intents
+        self.model = AdvancedIntentClassifierModel(100, num_intents)
+        self.intents = []
+        self.model_path = "advanced_model.pth"
+
+    def process(self, messages: List[Dict[Text, Any]]) -> List[Dict[Text, Any]]:
+        if self.model is None:
+            self.load_model()
+
+        results = []
+        for message in messages:
+            text = message.get("text")
+            if not text:
+                continue
+
+            text_tensor = torch.tensor([text_to_tensor(text)], dtype=torch.float32)
+            with torch.no_grad():
+                predictions = self.model(text_tensor)
+                predicted_label_idx = predictions.argmax(dim=1).item()
+                intent_name = self.intents[predicted_label_idx]
+                confidence = torch.softmax(predictions, dim=1).max().item()
+                results.append({"text": text, "intent": intent_name, "confidence": confidence})
+
+        return results
+
+    def load_model(self):
+        if torch.exists(self.model_path):
+            checkpoint = torch.load(self.model_path)
+            self.model.load_state_dict(checkpoint["model_state_dict"])
+            self.intents = checkpoint["intents"]
+            self.model.eval()
+            </pre>
+        </div>
 
         <button onclick="toggleContent('code4')">config.yml</button>
-        <div id="code4" class="code-content">Your config.yml Code Goes Here</div>
+        <div id="code4" class="code-content">
+            <pre>
+language: en
+pipeline:
+  - name: WhitespaceTokenizer
+    intent_tokenization_flag: true
+    intent_split_symbol: "+"
+  - name: RegexFeaturizer
+    case_sensitive: false
+    use_word_boundaries: true
+    use_lookup_tables: true
+    use_regexes: true
+  - name: LexicalSyntacticFeaturizer
+  - name: CountVectorsFeaturizer
+    analyzer: char_wb
+    min_ngram: 3
+    max_ngram: 6
+    stop_words: "english"
+  - name: CountVectorsFeaturizer
+    analyzer: word
+    max_features: 5000
+  - name: DIETClassifier
+    epochs: 100
+    learning_rate: 0.005
+    model_confidence: linear_norm
+    constrain_similarities: true
+  - name: PytorchIntentClassifier
+    model_path: "models/pytorch_classifier/model.pth"
+    intent_threshold: 0.7
+    epochs: 50
+    learning_rate: 0.001
+  - name: EntitySynonymMapper
+  - name: FallbackClassifier
+    threshold: 0.6
+    ambiguity_threshold: 0.1
+
+policies:
+  - name: RulePolicy
+    core_fallback_threshold: 0.4
+    core_fallback_action_name: "action_default_fallback"
+    enable_fallback_prediction: true
+  - name: MemoizationPolicy
+    max_history: 5
+  - name: TEDPolicy
+    max_history: 10
+    epochs: 200
+    constrain_similarities: true
+  - name: AugmentedMemoizationPolicy
+    max_history: 8
+  - name: UnexpecTEDIntentPolicy
+    max_history: 10
+    epochs: 100
+    enable_fallback_prediction: true
+  - name: MappingPolicy
+    enable_fallback_prediction: true
+
+components:
+  - name: CustomSpellingCorrection
+    word_freq_path: "data/custom_word_frequencies.json"
+    correction_threshold: 0.8
+  - name: TopicClassifier
+    num_topics: 5
+    topic_mapping:
+      education: ["tutoring", "learning", "SmartStep"]
+      scheduling: ["sessions", "availability", "times"]
+      pricing: ["cost", "price", "rates"]
+
+responses:
+  - name: ResponseSelector
+    retrieval_intent: "faq"
+    epochs: 100
+  - name: KnowledgeBaseAction
+    knowledge_base_path: "data/knowledge_base.json"
+    response_types: ["faq", "policy", "tutoring_details"]
+
+fallback:
+  threshold: 0.6
+  ambiguity_threshold: 0.1     
+            </pre>
+        </div>
 
         <button onclick="toggleContent('code5')">domain.yml</button>
-        <div id="code5" class="code-content">Your domain.yml Code Goes Here</div>
+        <div id="code5" class="code-content">
+            <pre>
+version: "3.1"
+
+intents:
+  - greet
+  - goodbye
+  - inquire_subjects
+  - inquire_tutoring_hours
+  - inquire_tutors
+  - inquire_pricing
+  - inquire_contact
+  - faq_enrollment
+  - faq_cancellation
+  - faq_resources
+
+entities:
+  - subject
+  - day
+  - time
+
+slots:
+  subject:
+    type: text
+  day:
+    type: text
+  time:
+    type: text
+
+responses:
+  utter_greet:
+    - text: "Hello! Welcome to Smart Step Tutoring. How can I help you today?"
+
+  utter_goodbye:
+    - text: "Thank you for visiting Smart Step Tutoring. Have a great day!"
+
+  utter_inquire_subjects:
+    - text: "We offer tutoring in Math, Science, and English. Which subject do you need help with?"
+
+  utter_inquire_tutoring_hours:
+    - text: "Our tutoring hours are from 9 AM to 8 PM, Monday through Saturday. What time works for you?"
+
+  utter_inquire_tutors:
+    - text: "Our tutors are experienced professionals specializing in K-12 education. Would you like to know more about a specific subject tutor?"
+
+  utter_inquire_pricing:
+    - text: "Our rates vary based on the grade level and subject. Can you provide more details about your needs?"
+
+  utter_inquire_contact:
+    - text: "You can contact us at hab.omar24@gmail.com or call us at (513) 496-9291."
+
+  utter_faq_enrollment:
+    - text: "To enroll, please fill out the form on our website or contact us for assistance."
+
+  utter_faq_cancellation:
+    - text: "You can cancel a session with at least 24 hours' notice to avoid charges."
+
+  utter_faq_resources:
+    - text: "We provide additional learning resources for students, such as worksheets and practice tests."
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+            </pre>
+        </div>
     </div>
 </div>
 
