@@ -151,7 +151,198 @@
         <button onclick="toggleContent('code1')">Part of my SwiftUI ContentView code (Click Me!)</button>
         <div id="code1" class="code-content">
             <pre>
-#place content view code here
+import SwiftUI
+import FirebaseCore
+import Firebase
+import FirebaseAuth
+import GoogleSignIn
+
+// Main Content View
+struct ContentView: View {
+    @State private var isLoggedIn = false
+    @State private var scheduledTimes: [String] = []
+    @State private var imageUrl: String = ""
+    let options = ["Math", "Reading/English", "Sciences", "Contact Us", "Show Time"]
+    
+    var body: some View {
+        NavigationView {
+            if isLoggedIn {
+                mainContentView()
+            } else {
+                LoginView(isLoggedIn: $isLoggedIn, scheduledTimes: $scheduledTimes, imageUrl: $imageUrl)
+            }
+        }
+        .onAppear {
+            checkIfLoggedIn()
+        }
+    }
+    
+    private func checkIfLoggedIn() {
+        if Auth.auth().currentUser != nil {
+            isLoggedIn = true
+        }
+    }
+    
+    private func mainContentView() -> some View {
+        VStack {
+            Text("Welcome to SmartStep Tutoring")
+                .font(.largeTitle)
+                .padding()
+            Spacer()
+            GridStack(rows: 3, columns: 2) { row, col in
+                let index = row * 2 + col
+                if index < options.count {
+                    NavigationLink(destination: descriptionView(for: options[index])) {
+                        Text(options[index])
+                            .font(.title)
+                            .padding()
+                            .background(self.buttonColor(for: index))
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                            .frame(maxWidth: .infinity)
+                    }
+                    .padding()
+                }
+            }
+            Spacer()
+            Button(action: signOut) {
+                Text("Sign Out")
+                    .padding()
+                    .background(Color.red)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+            }
+            .padding()
+        }
+        .padding()
+    }
+    
+    private func signOut() {
+        do {
+            try Auth.auth().signOut()
+            isLoggedIn = false
+        } catch {
+            print("Error signing out: \(error.localizedDescription)")
+        }
+    }
+    
+    private func descriptionView(for option: String) -> some View {
+        switch option {
+        case "Math":
+            return AnyView(MathView())
+        case "Reading/English":
+            return AnyView(ReadingEnglishView())
+        case "Sciences":
+            return AnyView(SciencesView())
+        case "Contact Us":
+            return AnyView(OtherView())
+        case "Show Time":
+            return AnyView(TimeView(scheduledTimes: scheduledTimes, imageUrl: imageUrl))
+        default:
+            return AnyView(UnknownView())
+        }
+    }
+    
+    private func buttonColor(for index: Int) -> Color {
+        switch index {
+        case 0: return Color.blue
+        case 1: return Color.red
+        case 2: return Color.green
+        case 3: return Color.orange
+        case 4: return Color.purple
+        default: return Color.gray
+        }
+    }
+}
+
+// Login View
+struct LoginView: View {
+    @Binding var isLoggedIn: Bool
+    @Binding var scheduledTimes: [String]
+    @Binding var imageUrl: String
+    
+    var body: some View {
+        VStack {
+            Text("SmartStep Tutoring")
+                .font(.largeTitle)
+                .padding()
+            Button(action: signInWithGoogle) {
+                Text("Sign in with Google")
+                    .padding()
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+            }
+        }
+        .padding()
+    }
+    
+    func signInWithGoogle() {
+        guard let clientID = FirebaseApp.app()?.options.clientID else {
+            print("Error: Unable to retrieve clientID")
+            return
+        }
+
+        GIDSignIn.sharedInstance.configuration = GIDConfiguration(clientID: clientID)
+
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let rootVC = windowScene.windows.first?.rootViewController else {
+            print("Error: Unable to find root view controller")
+            return
+        }
+
+        GIDSignIn.sharedInstance.signIn(withPresenting: rootVC) { result, error in
+            if let error = error {
+                print("Error signing in: \(error.localizedDescription)")
+                return
+            }
+
+            guard let user = result?.user, let email = user.profile?.email else {
+                print("Error: User not found or email is nil")
+                return
+            }
+
+            isLoggedIn = true
+            sendEmailToBackend(email: email)
+        }
+    }
+
+    private func sendEmailToBackend(email: String) {
+        guard let url = URL(string: "http://127.0.0.1:5000/check_email") else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        let json: [String: Any] = ["Email": email]
+        let jsonData = try? JSONSerialization.data(withJSONObject: json)
+        request.httpBody = jsonData
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Error sending email to backend: \(error.localizedDescription)")
+                return
+            }
+            if let data = data {
+                do {
+                    if let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                       let exists = jsonResponse["exists"] as? Bool {
+                        DispatchQueue.main.async {
+                            if exists {
+                                // User exists, update UI
+                                scheduledTimes = jsonResponse["scheduled_times"] as? [String] ?? []
+                                imageUrl = jsonResponse["image_url"] as? String ?? ""
+                            } else {
+                                print("User not signed up.")
+                            }
+                        }
+                    }
+                } catch {
+                    print("Error parsing response: \(error.localizedDescription)")
+                }
+            }
+        }
+        task.resume()
+    }
+}
             </pre>
         </div>
 
@@ -159,7 +350,54 @@
         <button onclick="toggleContent('code2')">Python Backend Flask Code (Click Me!)</button>
         <div id="code2" class="code-content">
             <pre>
-#place python code here
+from flask import Flask, request, jsonify
+from googleapiclient.discovery import build
+from google.oauth2 import service_account
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
+
+# Google Sheets API setup
+SERVICE_ACCOUNT_FILE = '/Users/omarhabli/Downloads/smartstep-tutoring-6d7040bd660a.json'  # Path to your service account file
+SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
+creds = service_account.Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=SCOPES)
+
+# Replace with your spreadsheet ID and ranges
+SPREADSHEET_ID = '1FsyJG9oU3x3qC11Dj3zdw2P1KzYldbSPtxdP_mU0Su0'
+EMAIL_RANGE_NAME = 'All Customers!A:A'  # Adjust the range as needed to include all emails
+DATA_RANGE_NAME = 'All Customers!A:H'  # Range for additional data (emails + scheduled times + image URLs)
+
+@app.route('/check_email', methods=['POST'])
+def check_email():
+    email = request.json.get('Email')
+    print("Incoming email:", email)  # Debugging line to see what email is received
+    if not email:
+        return jsonify({"error": "Email is required"}), 400
+
+    service = build('sheets', 'v4', credentials=creds)
+    sheet = service.spreadsheets()
+    
+    try:
+        # Fetch all data
+        result = sheet.values().get(spreadsheetId=SPREADSHEET_ID, range=DATA_RANGE_NAME).execute()
+        values = result.get('values', [])
+        print("Retrieved values:", values)  # Debugging line to show fetched values
+
+        # Check if email exists and retrieve corresponding data
+        for row in values:
+            if row and row[0].strip().lower() == email.lower():
+                scheduled_times = row[1:]  # Assume scheduled times start from column B onwards
+                image_url = row[7] if len(row) > 7 else None  # Assuming image URL is in column H
+                return jsonify({"exists": True, "scheduled_times": scheduled_times, "image_url": image_url}), 200
+        
+        return jsonify({"exists": False}), 200
+    except Exception as e:
+        print("An error occurred:", e)  # Print the error for debugging
+        return jsonify({"error": "An error occurred while accessing the spreadsheet"}), 500
+
+if __name__ == '__main__':
+    app.run(debug=True)
             </pre>
         </div>
     </div>
