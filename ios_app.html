@@ -16,14 +16,23 @@
         }
 
         .navbar {
-            background-color: rgba(0, 0, 0, 0.85);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            background-color: #360568;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
         .navbar-brand {
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: bold;
             color: white;
+        }
+
+        .navbar-nav .nav-link {
+            color: white;
+            font-weight: 500;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #c8a2c8;
         }
 
         .main-section {
@@ -93,6 +102,26 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark">
     <a class="navbar-brand" href="#">Omar Habli's Projects</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">Machine Learning Chat Bot</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="macro.html">MACRO Robot</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="ios_app.html">SmartStep Tutoring iOS App</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="react_website.html">SmartStep Tutoring Website</a>
+            </li>
+        </ul>
+    </div>
 </nav>
 
 <div class="main-section container">
@@ -102,8 +131,8 @@
     <!-- Objective Statement -->
     <div class="objective">
         <p>
-            <strong>Objective:</strong> Currently developing this app to promote my self-started business: 
-            <strong>SmartStep Tutoring LLC.</strong> This app streamlines the tutoring experience for both students and tutors 
+            <strong>Objective:</strong> Currently developing this app to promote my self-started business:
+            <strong>SmartStep Tutoring LLC.</strong> This app streamlines the tutoring experience for both students and tutors
             by offering convenient features like secure login, personalized scheduling, and integration with real-time backend systems.
         </p>
     </div>
