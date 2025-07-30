@@ -182,7 +182,91 @@
         <button onclick="toggleCode('code1')">RISC-V 32-bit Assembly: Graphing Calculator Program</button>
             <div id="code1" class="code-zone">
                 <pre>
-                    PROGRAM
+                    PROGRAM STILL IN PROGRESS (WILL BE FINISHED AUG 8):
+#x31 will be the counter for what spot in memory are we in starting from h33,001,000
+#initialization for x31 and software reset
+#we must create a clear function
+
+addi  x31, x0, 128
+sw x31, 4(x0)
+sw x31, 8(x0)
+sw x31, 12(x0)
+addi x31, x0, 0
+ori   x31, x0, 0x33        # x31 = 0x00000033
+slli  x31, x31, 24         # x31 = 0x33000000
+ori   x31, x31, 0x0100     # x31 = 0x33000100
+add  x28, x31, x0
+addi x29, x0, 36
+addi x8, x0, 288
+
+initialization_loop:
+	sw x0, 0(x28)
+    addi x28, x28, 4
+    addi x30, x30, 1
+    beq x30, x29, loading_loop
+    jal x1, initialization_loop
+
+loading_loop:
+    addi x12, x0, 10
+    addi x13, x0, 31 #0
+    addi x14, x0, 18 #18 app button
+    addi x15, x0, 16 #16 because all operands are less than 16
+    addi x16, x0, 25 #x variable
+    lw x2, 16(x0)
+    beq x2, x14, graphing
+    beq x2, x0, loading_loop
+    beq x2, x12, loading_loop
+    blt x2, x12, building_number
+    beq x2, x13, x2_zero
+    blt x2, x15, building_operand
+    beq x2, x16, building_operand
+
+    
+building_number:
+	addi x3, x0, 10
+    lw x4, 0(x31)
+    mul x4, x4, x3
+    add x4, x4, x2
+    sw x4, 0(x31)
+    jal x1, loading_loop
+ 
+building_operand:
+	addi x31, x31, 4 
+    addi x5, x0, 1
+	slli x5, x5, 31       # x5 = 0x80000000
+	or   x2, x2, x5       # x2 = x2 | 0x80000000
+    sw x2, 0(x31)
+    addi x31, x31, 4
+    jal x1, loading_loop
+
+graphing:                        #no PEMDAS
+	addi x6, x0, 60
+    slli x6, x6, 16
+    addi x6, x6, 60
+    jal x1, clear_screen
+    jal x1, plot_x
+    jal x1, plot_y
+
+x2_zero:
+    addi x2, x0, 0
+    jal x1, building_number
+
+plot_x:
+    addi x7, x7, 1           # x7 = x7 + 1 (x_coord += 1)
+    bge  x7, x8, plot_return # if x7 >= 288, skip plotting
+    
+    addi x10, x0, 4
+    sw x10, 4(x0)            # MMIO[4] = control command to draw
+    slli x9, x7, 16          # x9 = x7 << 16 (start)
+    or   x9, x9, x7          # x9 = x9 | x7   (end = start)
+
+    sw x9, 8(x0)             # MMIO[8] = packed x
+    sw x6, 12(x0)            # MMIO[12] = packed y (already in x6)
+    
+
+plot_return:
+    jalr x0, x1, 0           # return
+
             </pre>
         </div>
     </div>
