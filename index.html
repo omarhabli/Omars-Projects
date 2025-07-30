@@ -1,480 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Omar Habli's Projects</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        /* General Body Styling */
-        body {
-            background: linear-gradient(to right, #6a0dad, #9b5de5);
-            color: white;
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-        }
+<h1 class="text-center mt-5">Graphing Calculator with Custom RISC-V CPU</h1>
+<div class="divider"></div>
 
-        /* Navigation Bar */
-        .navbar {
-            background-color: rgba(0, 0, 0, 0.85);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .navbar-brand {
-            font-size: 2rem;
-            font-weight: bold;
-            color: white;
-        }
-
-        .navbar-brand img {
-            height: 50px;
-            margin-right: 10px;
-            border-radius: 50%;
-        }
-
-        .nav-item .nav-btn {
-            border: 2px solid white;
-            color: black;
-            font-weight: bold;
-            padding: 8px 16px;
-            border-radius: 20px;
-            margin-right: 10px;
-            transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
-        }
-
-        .nav-item .nav-btn:hover {
-            background-color: white;
-            color: #6a0dad;
-            transform: scale(1.05);
-        }
-
-        /* Main Section */
-        .main-section {
-            padding: 50px 20px;
-        }
-
-        .description {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .description img {
-            flex: 1;
-            max-width: 48%;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-        }
-
-        .description-text {
-            flex: 2;
-        }
-
-        .divider {
-            width: 100px;
-            height: 5px;
-            background: white;
-            margin: 20px auto 40px;
-            border-radius: 50px;
-        }
-
-        /* Collapsible Sections */
-        .code-zone {
-            margin-top: 30px;
-        }
-
-        .code-zone button {
-            width: 100%;
-            padding: 15px;
-            background-color: rgba(0, 0, 0, 0.7);
-            border: 2px solid white;
-            color: white;
-            font-weight: bold;
-            border-radius: 10px;
-            cursor: pointer;
-            margin-bottom: 10px;
-            transition: transform 0.3s ease, background-color 0.3s ease;
-        }
-
-        .code-zone button:hover {
-            background-color: white;
-            color: #6a0dad;
-            transform: scale(1.05);
-        }
-
-        .code-content {
-            display: none;
-            padding: 15px;
-            background-color: #f8f9fa;
-            color: black;
-            font-family: monospace;
-            border-radius: 10px;
-            margin-top: 10px;
-        }
-    </style>
-</head>
-<body>
-
-<!-- Navigation Bar -->
-<nav class="navbar navbar-expand-lg navbar-dark">
-    <a class="navbar-brand" href="#">
-        <img src="images/Headshot.jpeg" alt="Omar's Headshot">
-        Omar Habli's Projects
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <button class="btn nav-btn" onclick="window.location.href='index.html'">Graphing Calculator with RISC-V 32 Bit Super Scalar CPU with I-cache and Optimized Instruction Set </button>
-            </li>
-            <li class="nav-item">
-                <button class="btn nav-btn" onclick="window.location.href='macro_robot.html'">MACRO Robot</button>
-            </li>
-            <li class="nav-item">
-                <button class="btn nav-btn" onclick="window.location.href='ios_app.html'">SmartStep Tutoring iOS App</button>
-            </li>
-            <li class="nav-item">
-                <button class="btn nav-btn" onclick="window.open('https://omarhabli.github.io/SmartStep-Tutoring/', '_blank')">SmartStep Website (Uses React)</button>
+<!-- Project Description -->
+<div class="row description">
+    <div class="description-text">
+        <h3>Project Overview:</h3>
+        <ul class="bullet-list">
+            <li>Created RTL block diagrams for a RISC-V single-cycle CPU, QSPI/UART peripherals, and MMIO interface.</li>
+            <li>Extended CPU into a superscalar architecture with an instruction scheduler for increased parallelism.</li>
+            <li>Designed a custom instruction cache (I-Cache) to reduce fetch latency and boost throughput.</li>
+            <li>Used memory-mapped I/O (MMIO) to communicate with a request unit, keypad, screen, and RAM (via Wishbone bus).</li>
+            <li>Integrated QSPI and UART interfaces for real-time input and output with the user-controlled LCD screen.</li>
+            <li>Built multiply and floating-point extensions into the CPU’s instruction set based on RISC-V standards.</li>
+            <li>Deployed the full system on silicon using the Caravel SoC for ASIC fabrication as part of Purdue’s NEBULA III initiative.</li>
+            <li>Project GitHub. Source code and test benches within verilog/rtl/team_projects/team_04/src and verilog/dv/team_04/module_tests: 
+                <a href="https://github.com/STARS-Design-Track-2025/nebula-iii-team-04" target="_blank" style="color: #fdd835; font-weight: bold;">
+                    nebula-iii-team-04
+                </a>
             </li>
         </ul>
     </div>
-</nav>
 
-<!-- Main Section -->
-<div class="main-section container">
-    <h1 class="text-center mt-5">Machine Learning Chat Bot (Scroll Down to See PyTorch Code!)</h1>
-    <div class="divider"></div>
-
-    <!-- Project Description -->
-    <div class="row description">
-        <div class="description-text">
-            <h3>What I Learned:</h3>
-            <ul class="bullet-list">
-                <li>Utilized Rasa NLU and Rasa Core for designing conversational AI pipelines.</li>
-                <li>Implemented custom intent classification model with PyTorch using neural networks.</li>
-                <li>Defined network architecture with layers, activation functions (ReLU), and loss functions (CrossEntropyLoss).</li>
-                <li>Employed Adam optimizer for gradient descent in training.</li>
-                <li>Preprocessed raw input text with tokenization, lowercasing, and padding for model compatibility.</li>
-                <li>Developed custom text vectorization methods (ASCII encoding or embeddings) for input representation</li>
-                <li>Integrated PyTorch model as a custom Rasa component in the NLU pipeline.</li>
-                <li>Conducted inference using softmax activation for intent prediction and confidence scoring.</li>
-                <li>Evaluated model preformance using precision, recall, F1-score, and accuracy.</li>
-                <li>Created custom Rasa components (GraphComponent) for seamless integration of PyTorch classifier.</li>
-                <li>Optimized model for performance and scalability in real-time deployment.</li>
-                <li>Leveraged model fine-tuning techniques for improving generalization and reducing overfitting.</li>
-            </ul>
-        </div>
-        <div class="images">
-            <img src="images/download.jpeg" alt="Chatbot Visualization 1">
-            <img src="images/rasa.jpeg" alt="Chatbot Visualization 2">
-        </div>
+    <!-- Six Image Placeholders -->
+    <div class="images-grid">
+        <img src="images/img1.png" alt="Top-level diagram">
+        <img src="images/img2.png" alt="CPU">
+        <img src="images/img3.png" alt="MMIO">
+        <img src="images/img4.png" alt="Request Unit">
+        <img src="images/img5.png" alt="LCD Display">
+        <img src="images/img6.png" alt="Keypad">
     </div>
+</div>
 
-    <!-- Code Sections -->
-    <div class="code-zone">
-        <button onclick="toggleContent('code1')">Model Design (Click Me and All Other Buttons to See More Code!)</button>
-        <div id="code1" class="code-content">
-            <pre>
-import torch
-import torch.nn as nn
-import torch.optim as optim
-from typing import Any, Dict, List, Text, Optional
-
-class SelfAttention(nn.Module):
-    def __init__(self, input_dim: int):
-        super(SelfAttention, self).__init__()
-        self.query = nn.Linear(input_dim, input_dim)
-        self.key = nn.Linear(input_dim, input_dim)
-        self.value = nn.Linear(input_dim, input_dim)
-        self.softmax = nn.Softmax(dim=-1)
-
-    def forward(self, x):
-        Q = self.query(x)
-        K = self.key(x)
-        V = self.value(x)
-        attention_scores = self.softmax(torch.matmul(Q, K.transpose(-2, -1)))
-        return torch.matmul(attention_scores, V)
-
-class AdvancedIntentClassifierModel(nn.Module):
-    def __init__(self, input_dim: int, num_intents: int):
-        super(AdvancedIntentClassifierModel, self).__init__()
-        self.layers = nn.Sequential(
-            nn.Linear(input_dim, 128), 
-            nn.ReLU(),
-            nn.Dropout(0.3),
-            SelfAttention(128), 
-            nn.Linear(128, 64), 
-            nn.BatchNorm1d(64),
-            nn.ReLU(),
-            nn.Dropout(0.5),
-            nn.Linear(64, num_intents)
-        )
-
-    def forward(self, x):
-        return self.layers(x)
-
-def text_to_tensor(text: Text, max_length: int = 100):
-    text = text.strip().lower()
-    vector = [ord(char) % 100 for char in text[:max_length]]
-    vector += [0] * (max_length - len(vector))
-    return vector
+<!-- Assembly Code Section -->
+<div class="code-zone">
+    <button onclick="toggleContent('code1')">RISC-V 32-bit Assembly: Graphing Calculator Program</button>
+    <div id="code1" class="code-content">
+        <pre>
+PROGRAM
         </pre>
-</div>
-
-        <button onclick="toggleContent('code2')">Training Logic</button>
-        <div id="code2" class="code-content">
-            <pre>
-class AdvancedPytorchIntentClassifier:
-    def __init__(self, num_intents: int):
-        self.num_intents = num_intents
-        self.model = AdvancedIntentClassifierModel(100, num_intents)  # Input size: 100
-        self.optimizer = optim.Adam(self.model.parameters(), lr=0.001)
-        self.criterion = nn.CrossEntropyLoss()
-        self.scheduler = optim.lr_scheduler.CosineAnnealingLR(self.optimizer, T_max=20, eta_min=0.0001)
-        self.intents = []
-        self.model_path = "advanced_model.pth"
-
-    def train(self, input_texts: List[torch.Tensor], labels: List[torch.Tensor], epochs: int = 50):
-        self.model.train()
-        for epoch in range(epochs):
-            running_loss = 0.0
-            for text_tensor, label_tensor in zip(input_texts, labels):
-                self.optimizer.zero_grad()
-                outputs = self.model(text_tensor.unsqueeze(0).float())
-                loss = self.criterion(outputs, label_tensor.unsqueeze(0))
-                loss.backward()
-                self.optimizer.step()
-                running_loss += loss.item()
-
-            self.scheduler.step()
-            print(f"Epoch [{epoch + 1}/{epochs}], Loss: {running_loss / len(input_texts)}")
-
-        torch.save(
-            {"model_state_dict": self.model.state_dict(), "intents": self.intents},
-            self.model_path,
-        )
-
-    def prepare_training_data(self, training_data: List[Dict[Text, Any]]):
-        input_texts = []
-        labels = []
-        for example in training_data:
-            text = example.get("text")
-            intent = example.get("intent")
-            if text and intent:
-                text_tensor = torch.tensor(text_to_tensor(text), dtype=torch.float32)
-                label_tensor = torch.tensor(self.intents.index(intent), dtype=torch.long)
-                input_texts.append(text_tensor)
-                labels.append(label_tensor)
-        return input_texts, labels
-
-    def load_model(self):
-        if torch.exists(self.model_path):
-            checkpoint = torch.load(self.model_path)
-            self.model.load_state_dict(checkpoint["model_state_dict"])
-            self.intents = checkpoint["intents"]
-            self.model.eval()
-            </pre>
-        </div>
-
-        <button onclick="toggleContent('code3')">Inference Logic</button>
-        <div id="code3" class="code-content">
-            <pre>
-class AdvancedPytorchIntentClassifier:
-    # Ensure initialization and loading logic remain here as well.
-    def __init__(self, num_intents: int):
-        self.num_intents = num_intents
-        self.model = AdvancedIntentClassifierModel(100, num_intents)
-        self.intents = []
-        self.model_path = "advanced_model.pth"
-
-    def process(self, messages: List[Dict[Text, Any]]) -> List[Dict[Text, Any]]:
-        if self.model is None:
-            self.load_model()
-
-        results = []
-        for message in messages:
-            text = message.get("text")
-            if not text:
-                continue
-
-            text_tensor = torch.tensor([text_to_tensor(text)], dtype=torch.float32)
-            with torch.no_grad():
-                predictions = self.model(text_tensor)
-                predicted_label_idx = predictions.argmax(dim=1).item()
-                intent_name = self.intents[predicted_label_idx]
-                confidence = torch.softmax(predictions, dim=1).max().item()
-                results.append({"text": text, "intent": intent_name, "confidence": confidence})
-
-        return results
-
-    def load_model(self):
-        if torch.exists(self.model_path):
-            checkpoint = torch.load(self.model_path)
-            self.model.load_state_dict(checkpoint["model_state_dict"])
-            self.intents = checkpoint["intents"]
-            self.model.eval()
-            </pre>
-        </div>
-
-        <button onclick="toggleContent('code4')">config.yml</button>
-        <div id="code4" class="code-content">
-            <pre>
-language: en
-pipeline:
-  - name: WhitespaceTokenizer
-    intent_tokenization_flag: true
-    intent_split_symbol: "+"
-  - name: RegexFeaturizer
-    case_sensitive: false
-    use_word_boundaries: true
-    use_lookup_tables: true
-    use_regexes: true
-  - name: LexicalSyntacticFeaturizer
-  - name: CountVectorsFeaturizer
-    analyzer: char_wb
-    min_ngram: 3
-    max_ngram: 6
-    stop_words: "english"
-  - name: CountVectorsFeaturizer
-    analyzer: word
-    max_features: 5000
-  - name: DIETClassifier
-    epochs: 100
-    learning_rate: 0.005
-    model_confidence: linear_norm
-    constrain_similarities: true
-  - name: PytorchIntentClassifier
-    model_path: "models/pytorch_classifier/model.pth"
-    intent_threshold: 0.7
-    epochs: 50
-    learning_rate: 0.001
-  - name: EntitySynonymMapper
-  - name: FallbackClassifier
-    threshold: 0.6
-    ambiguity_threshold: 0.1
-
-policies:
-  - name: RulePolicy
-    core_fallback_threshold: 0.4
-    core_fallback_action_name: "action_default_fallback"
-    enable_fallback_prediction: true
-  - name: MemoizationPolicy
-    max_history: 5
-  - name: TEDPolicy
-    max_history: 10
-    epochs: 200
-    constrain_similarities: true
-  - name: AugmentedMemoizationPolicy
-    max_history: 8
-  - name: UnexpecTEDIntentPolicy
-    max_history: 10
-    epochs: 100
-    enable_fallback_prediction: true
-  - name: MappingPolicy
-    enable_fallback_prediction: true
-
-components:
-  - name: CustomSpellingCorrection
-    word_freq_path: "data/custom_word_frequencies.json"
-    correction_threshold: 0.8
-  - name: TopicClassifier
-    num_topics: 5
-    topic_mapping:
-      education: ["tutoring", "learning", "SmartStep"]
-      scheduling: ["sessions", "availability", "times"]
-      pricing: ["cost", "price", "rates"]
-
-responses:
-  - name: ResponseSelector
-    retrieval_intent: "faq"
-    epochs: 100
-  - name: KnowledgeBaseAction
-    knowledge_base_path: "data/knowledge_base.json"
-    response_types: ["faq", "policy", "tutoring_details"]
-
-fallback:
-  threshold: 0.6
-  ambiguity_threshold: 0.1     
-            </pre>
-        </div>
-
-        <button onclick="toggleContent('code5')">domain.yml</button>
-        <div id="code5" class="code-content">
-            <pre>
-version: "3.1"
-
-intents:
-  - greet
-  - goodbye
-  - inquire_subjects
-  - inquire_tutoring_hours
-  - inquire_tutors
-  - inquire_pricing
-  - inquire_contact
-  - faq_enrollment
-  - faq_cancellation
-  - faq_resources
-
-entities:
-  - subject
-  - day
-  - time
-
-slots:
-  subject:
-    type: text
-  day:
-    type: text
-  time:
-    type: text
-
-responses:
-  utter_greet:
-    - text: "Hello! Welcome to Smart Step Tutoring. How can I help you today?"
-
-  utter_goodbye:
-    - text: "Thank you for visiting Smart Step Tutoring. Have a great day!"
-
-  utter_inquire_subjects:
-    - text: "We offer tutoring in Math, Science, and English. Which subject do you need help with?"
-
-  utter_inquire_tutoring_hours:
-    - text: "Our tutoring hours are from 9 AM to 8 PM, Monday through Saturday. What time works for you?"
-
-  utter_inquire_tutors:
-    - text: "Our tutors are experienced professionals specializing in K-12 education. Would you like to know more about a specific subject tutor?"
-
-  utter_inquire_pricing:
-    - text: "Our rates vary based on the grade level and subject. Can you provide more details about your needs?"
-
-  utter_inquire_contact:
-    - text: "You can contact us at hab.omar24@gmail.com or call us at (513) 496-9291."
-
-  utter_faq_enrollment:
-    - text: "To enroll, please fill out the form on our website or contact us for assistance."
-
-  utter_faq_cancellation:
-    - text: "You can cancel a session with at least 24 hours' notice to avoid charges."
-
-  utter_faq_resources:
-    - text: "We provide additional learning resources for students, such as worksheets and practice tests."
-
-session_config:
-  session_expiration_time: 60
-  carry_over_slots_to_new_session: true
-            </pre>
-        </div>
     </div>
 </div>
 
-<script>
-    function toggleContent(id) {
-        const content = document.getElementById(id);
-        content.style.display = content.style.display === 'none' || content.style.display === '' ? 'block' : 'none';
-    }
-</script>
-</body>
-</html>
+<!-- My Contributions Section -->
+<div class="my-contributions">
+    <h3>My Contributions:</h3>
+    <ul class="bullet-list">
+        <li>Designed and implemented the MMIO module to support communication with peripherals including RAM, keypad, and display.</li>
+        <li>Built the datapath architecture, integrating ALU, control unit, instruction fetch/decode through a complex request unit, and the register file.</li>
+        <li>Led RAM interfacing via the Wishbone bus, ensuring correct handshakes and addressing across the full memory map.</li>
+        <li>Wrote and tested the full RISC-V 32-bit assembly code for the graphing calculator application.</li>
+        <li>Coordinated integration and top level test benching due to creating the MMIO.</li>
+        <li>Test benched the control unit, PC module, and the request unit to ensure correct RAM interfacing.</li>
+    </ul>
+</div>
