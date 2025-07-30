@@ -1,3 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graphing Calculator with RISC-V 32 Bit Super Scalar CPU with I-cache and Optimized Instruction Set - Omar Habli's Projects</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* General Body Styling */
+        body {
+            background: linear-gradient(to right, #6a0dad, #9b5de5);
+            color: white;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.85);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar-brand {
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .navbar-brand img {
+            height: 50px;
+            margin-right: 10px;
+            border-radius: 50%;
+        }
+
+        .nav-item .nav-btn {
+            border: 2px solid white;
+            color: black;
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin-right: 10px;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+        }
+
+        .nav-item .nav-btn:hover {
+            background-color: white;
+            color: #6a0dad;
+            transform: scale(1.05);
+        }
+
+        /* Main Section */
+        .main-section {
+            padding: 50px 20px;
+        }
+
+        .description {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .description img {
+            flex: 1;
+            max-width: 48%;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .description-text {
+            flex: 2;
+        }
+
+        .divider {
+            width: 100px;
+            height: 5px;
+            background: white;
+            margin: 20px auto 40px;
+            border-radius: 50px;
+        }
+
+        /* Code Drop-Down Zones */
+        .code-zone {
+            margin-top: 30px;
+        }
+
+        .code-zone button {
+            width: 100%;
+            padding: 15px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 2px solid white;
+            color: white;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .code-zone button:hover {
+            background-color: white;
+            color: #6a0dad;
+            transform: scale(1.05);
+        }
+
+        .code-content {
+            display: none;
+            background-color: #f8f9fa;
+            color: black;
+            font-family: monospace;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <a class="navbar-brand" href="#">
+        <img src="images/Headshot.jpeg" alt="Omar's Headshot">
+        Omar Habli's Projects
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <button class="btn nav-btn" onclick="window.location.href='index.html'">Graphing Calculator with RISC-V 32 Bit Super Scalar CPU with I-cache and Optimized Instruction Set </button>
+            </li>
+            <li class="nav-item">
+                <button class="btn nav-btn" onclick="window.location.href='macro_robot.html'">MACRO Robot</button>
+            </li>
+            <li class="nav-item">
+                <button class="btn nav-btn" onclick="window.location.href='ios_app.html'">SmartStep Tutoring iOS App</button>
+            </li>
+            <li class="nav-item">
+                <button class="btn nav-btn" onclick="window.open('https://omarhabli.github.io/SmartStep-Tutoring/', '_blank')">SmartStep Website (Uses React)</button>
+            </li>
+        </ul>
+    </div>
+</nav>
+
 <h1 class="text-center mt-5">Graphing Calculator with Custom RISC-V CPU</h1>
 <div class="divider"></div>
 
@@ -54,3 +199,21 @@ PROGRAM
         <li>Test benched the control unit, PC module, and the request unit to ensure correct RAM interfacing.</li>
     </ul>
 </div>
+    <script>
+    function toggleCode(id) {
+        const content = document.getElementById(id);
+        if (content.style.display === "none" || content.style.display === "") {
+            content.style.display = "block";
+        } else {
+            content.style.display = "none";
+        }
+    }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
+
