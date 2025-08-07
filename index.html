@@ -182,91 +182,1204 @@
         <button onclick="toggleCode('code1')">RISC-V 32-bit Assembly: Graphing Calculator Program</button>
             <div id="code1" class="code-zone">
                 <pre>
-PROGRAM STILL IN PROGRESS (WILL BE FINISHED AUG 8):
-			
 #x31 will be the counter for what spot in memory are we in starting from h33,001,000
 #initialization for x31 and software reset
 #we must create a clear function
-
-addi  x31, x0, 128
+beginning:
+addi x31, x0, 128
 sw x31, 4(x0)
 sw x31, 8(x0)
 sw x31, 12(x0)
+delete:
+addi x0, x0, 0
+addi x1, x0, 0
+addi x2, x0, 0
+addi x3, x0, 0
+addi x4, x0, 0
+addi x5, x0, 0
+addi x6, x0, 0
+addi x7, x0, 0
+addi x8, x0, 0
+addi x9, x0, 0
+addi x10, x0, 0
+addi x11, x0, 0
+addi x12, x0, 0
+addi x13, x0, 0
+addi x14, x0, 0
+addi x15, x0, 0
+addi x16, x0, 0
+addi x17, x0, 0
+addi x18, x0, 0
+addi x19, x0, 0
+addi x20, x0, 0
+addi x21, x0, 0
+addi x22, x0, 0
+addi x23, x0, 0
+addi x24, x0, 0
+addi x25, x0, 0
+addi x26, x0, 0
+addi x27, x0, 0
+addi x28, x0, 0
+addi x29, x0, 0
+addi x30, x0, 0
+jal x1, clear_screen
+addi x9, x0, 16
+addi x19, x0, 180
 addi x31, x0, 0
-ori   x31, x0, 0x33        # x31 = 0x00000033
-slli  x31, x31, 24         # x31 = 0x33000000
-ori   x31, x31, 0x0100     # x31 = 0x33000100
-add  x28, x31, x0
-addi x29, x0, 36
-addi x8, x0, 288
+ori x31, x0, 0x33 # x31 = 0x00000033
+slli x31, x31, 24 # x31 = 0x33000000
+addi x31, x31, 1000
+addi x31, x31, 1000
+addi x31, x31, 1000
+addi x31, x31, 1000
+add x28, x31, x0
+addi x29, x0, 72
+addi x8, x0, 296
+addi x10, x0, 240
+addi x11, x0, 320
+
+ui_set:
+addi x9, x0, 16
+addi x19, x0, 196 #jeffchange
+jal x7, draw_y
+jal x7, draw_equals
+addi x23, x0, 1 #moving x
+addi x24, x0, 0 #double x
+addi x25, x0, 186
+slli x25, x25, 16
+addi x25, x25, 186
+addi x26, x0, 4
+addi x27, x0, 318
+ui_line:
+slli x24, x23, 16
+add x24, x24, x23
+sw x26, 4(x0)
+sw x24, 8(x0)
+sw x25, 12(x0)
+beq x27, x23, ui_finish
+addi x23, x23, 1
+jal x0, ui_line
+
+ui_finish:
+addi x23, x0, 0
+addi x24, x0, 0
+addi x25, x0, 0
+addi x26, x0, 0
+addi x27, x0, 0
+addi x9, x0, 16
+addi x19, x0, 148
+addi x7, x0, 0
 
 initialization_loop:
-	sw x0, 0(x28)
-    addi x28, x28, 4
-    addi x30, x30, 1
-    beq x30, x29, loading_loop
-    jal x1, initialization_loop
-
+sw x0, 0(x28)
+addi x0, x0, 0
+addi x28, x28, 4
+addi x30, x30, 1
+beq x30, x29, loading_loop
+jal x0, initialization_loop
+addi x30, x30, 0
 loading_loop:
-    addi x12, x0, 10
-    addi x13, x0, 31 #0
-    addi x14, x0, 18 #18 app button
-    addi x15, x0, 16 #16 because all operands are less than 16
-    addi x16, x0, 25 #x variable
-    lw x2, 16(x0)
-    beq x2, x14, graphing
-    beq x2, x0, loading_loop
-    beq x2, x12, loading_loop
-    blt x2, x12, building_number
-    beq x2, x13, x2_zero
-    blt x2, x15, building_operand
-    beq x2, x16, building_operand
+addi x12, x0, 10 #alpha
+addi x12, x0, 10 #alpha
+addi x12, x0, 10 #alpha
+addi x12, x0, 10 #alpha
+addi x12, x0, 10 #alpha
+addi x12, x0, 10 #alpha
+addi x12, x0, 10 #alpha
+addi x13, x0, 31 #0
+addi x14, x0, 18 #18 app button, 11 is equal, switch what button switches to graphing
+addi x15, x0, 30
+addi x16, x0, 25 #x variable
+addi x18, x0, 1
+#x17 is negative or not negative number being built
+lw x2, 16(x0)
+addi x0, x0, 0
+addi x0, x0, 0
+addi x0, x0, 0
+beq x2, x14, graphing
+beq x2, x0, loading_loop
+beq x2, x12, alpha
+blt x2, x12, building_number
+beq x2, x13, x2_zero
+blt x2, x14, building_operand
+beq x2, x16, building_x
+beq x2, x15, delete
+jal x0, loading_loop
 
-    
+
+alpha:
+addi x21, x0, 0
+xori x24, x24, 1
+addi x23, x0, 1
+bne x24, x23, make_alpha_white
+addi x25, x0, 4
+jal x0, make_alpha_color
+make_alpha_white:
+addi x25, x0, 1
+make_alpha_color:
+addi x21, x21, 1
+slli x27, x21, 16
+add x27, x27, x21
+sw x25, 4(x0)
+sw x27, 8(x0)
+sw x27, 12(x0)
+beq x21, x16, loading_loop
+jal x0, make_alpha_color
+
+
 building_number:
-	addi x3, x0, 10
-    lw x4, 0(x31)
-    mul x4, x4, x3
-    add x4, x4, x2
-    sw x4, 0(x31)
-    jal x1, loading_loop
- 
-building_operand:
-	addi x31, x31, 4 
-    addi x5, x0, 1
-	slli x5, x5, 31       # x5 = 0x80000000
-	or   x2, x2, x5       # x2 = x2 | 0x80000000
-    sw x2, 0(x31)
-    addi x31, x31, 4
-    jal x1, loading_loop
+addi x3, x0, 10 # Multiplier = 10
+lw x4, 0(x31) # Load value from MEMORY into x4
 
-graphing:                        #no PEMDAS
-	addi x6, x0, 60
-    slli x6, x6, 16
-    addi x6, x6, 60
-    jal x1, clear_screen
-    jal x1, plot_x
-    jal x1, plot_y
+addi x5, x0, 0 # x5 will be the multiplication accumulator
+addi x6, x0, 0 # x6 will be loop counter
+
+multiply_loop:
+add x5, x5, x4 # Accumulate x4 into x5
+addi x6, x6, 1 # Increment counter
+blt x6, x3, multiply_loop # Loop until counter == 10
+
+add x4, x5, x0 # Move result back to x4
+add x4, x4, x2
+sw x4, 0(x31) # Store result back to MEMORY
+add x0, x0, x0
+jal x0, drawing_loading
+
+building_operand:
+addi x31, x31, 4
+sw x2, 0(x31) #MEMORY
+addi x0, x0, 0
+addi x31, x31, 4
+addi x17, x0, 0
+jal x0, drawing_loading
+
+building_x:
+addi x5, x0, 7 # x5 = 0x00000007
+slli x5, x5, 29 # x5 = 0xE0000000 (shift left 29 bits to set top 3 bits)
+add x2, x2, x5 # set top 3 bits of x2
+sw x2, 0(x31) #MEMORY
+addi x0, x0, 0
+#addi x31, x31, 4
+addi x17, x0, 0
+jal x0, drawing_loading
+
 
 x2_zero:
-    addi x2, x0, 0
-    jal x1, building_number
+addi x2, x0, 0
+jal x0, building_number
+
+drawing_loading:
+
+beq x2, x0, draw0
+
+addi x20, x0, 1
+beq x2, x20, draw1
+
+addi x20, x0, 2
+beq x2, x20, draw2
+
+addi x20, x0, 3
+beq x2, x20, draw3
+
+addi x20, x0, 4
+beq x2, x20, draw4
+
+addi x20, x0, 5
+beq x2, x20, draw5
+
+addi x20, x0, 6
+beq x2, x20, draw6
+
+addi x20, x0, 7
+beq x2, x20, draw7
+
+addi x20, x0, 8
+beq x2, x20, draw8
+
+addi x20, x0, 9
+beq x2, x20, draw9
+
+addi x20, x0, 12
+beq x2, x20, draw_div
+
+addi x20, x0, 13
+beq x2, x20, draw_mult
+
+addi x20, x0, 14
+beq x2, x20, draw_minus
+
+addi x20, x0, 15
+beq x2, x20, draw_add
+
+addi x20, x0, 15
+beq x2, x20, draw_add
+
+addi x20, x0, 17
+beq x2, x20, draw_exp
+
+addi x5, x0, 7 # x5 = 0x00000007
+slli x5, x5, 29 # x5 = 0xE0000000 (shift left 29 bits to set top 3 bits)
+addi x20, x5, 25
+beq x2, x20, draw_x
+
+jal x0, loading_loop
+
+
+graphing: #no PEMDAS
+add x7, x0, 0
+jal x1, clear_screen
+addi x6, x0, 60
+slli x6, x6, 16
+addi x6, x6, 60
+jal x1, plot_x
+add x7, x0, 0
+jal x1, plot_y
+addi x2, x0, 0
+addi x3, x0, 0
+addi x4, x0, 0
+addi x5, x0, 0
+addi x6, x0, 0
+addi x7, x0, 0
+addi x8, x0, 0
+addi x9, x0, 0
+addi x10, x0, 12
+addi x11, x0, 13
+addi x12, x0, 14
+addi x13, x0, 15
+addi x14, x0, 16
+addi x15, x0, 17
+addi x16, x0, 239
+addi x17, x0, 319
+addi x18, x0, 18
+addi x25, x0, 0
+addi x30, x0, 0 #leave out x31 on purpose
+addi x31, x0, 0
+jal x0, graphing_loop
 
 plot_x:
-    addi x7, x7, 1           # x7 = x7 + 1 (x_coord += 1)
-    bge  x7, x8, plot_return # if x7 >= 288, skip plotting
-    
-    addi x10, x0, 4
-    sw x10, 4(x0)            # MMIO[4] = control command to draw
-    slli x9, x7, 16          # x9 = x7 << 16 (start)
-    or   x9, x9, x7          # x9 = x9 | x7   (end = start)
+#x6 stuff should be commented
+#addi x6, x0, 60
+#slli x6, x6, 16
+#addi x6, x6, 60
+addi x7, x7, 1
+bge x7, x11, plot_return
+addi x9, x0, 16
+sw x9, 4(x0)
 
-    sw x9, 8(x0)             # MMIO[8] = packed x
-    sw x6, 12(x0)            # MMIO[12] = packed y (already in x6)
-    
+slli x9, x7, 16
+add x9, x9, x7
+
+sw x9, 8(x0)
+sw x6, 12(x0)
+jal x0, plot_x
+
+plot_y:
+addi x7, x7, 1
+bge x7, x10, plot_return
+addi x9, x0, 16
+sw x9, 4(x0)
+slli x9, x7, 16
+or x9, x9, x7
+
+sw x6, 8(x0)
+sw x9, 12(x0)
+
+jal x0, plot_y
 
 plot_return:
-    jalr x0, x1, 0           # return
+add x7, x0, 0
+jalr x0, x1, 0
+#testing with going straight to plot x from graphing
+#jal x0, loading_loop
+
+clear_screen:
+addi x10, x0, 240 # y limit
+addi x20, x0, 319 # x limit
+
+addi x2, x0, 1 # command = 8 (clear pixel)
+sw x2, 4(x0)
+
+addi x3, x0, 1 # current x
+slli x4, x3, 16
+add x5, x4, x3
+sw x5, 8(x0)
+sw x5, 12(x0)
+
+addi x7, x0, 0 # outer loop (y)
+
+out_loop:
+addi x7, x7, 1
+beq x7, x10, clear_return # done with all rows
+slli x11, x7, 16 # start y coord
+or x12, x11, x7 # end y coord (same as start)
+
+addi x6, x0, 0 # inner loop (x)
+
+in_loop:
+addi x6, x6, 1
+slli x4, x6, 16
+or x5, x4, x6 # x coord combined
+
+addi x2, x0, 1
+sw x2, 4(x0)
+sw x5, 8(x0)
+sw x12, 12(x0)
+
+beq x6, x20, out_loop
+jal x0, in_loop
+
+clear_return:
+addi x2, x0, 0
+addi x3, x0, 0
+addi x4, x0, 0
+addi x5, x0, 0
+addi x6, x0, 0
+addi x7, x0, 0
+addi x8, x0, 0
+addi x9, x0, 0
+addi x10, x0, 239
+addi x11, x0, 319
+addi x12, x0, 0
+addi x13, x0, 0
+addi x14, x0, 0
+addi x15, x0, 0
+addi x16, x0, 0
+addi x17, x0, 0
+addi x18, x0, 0
+addi x19, x0, 0
+addi x20, x0, 0
+addi x21, x0, 0
+addi x22, x0, 0
+addi x23, x0, 0
+addi x24, x0, 0
+addi x25, x0, 0
+addi x26, x0, 0
+addi x27, x0, 0
+addi x28, x0, 0
+addi x29, x0, 0
+addi x30, x0, 0
+jalr x0, x1, 0
+
+graphing_loop:
+ori x31, x0, 0x33 # x31 = 0x00000033
+slli x31, x31, 24 # x31 = 0x33000000
+addi x31, x31, 1000
+addi x31, x31, 1000
+addi x31, x31, 1000
+addi x31, x31, 1000
+addi x25, x25, 1 # x value (step counter)
+beq x25, x17, halt_x_finished # done if x hits end
+
+# Construct x marker for operand checking
+addi x5, x0, 7
+slli x5, x5, 29 # x5 = 0xE0000000
+
+lw x26, 0(x31) # get first token
+and x27, x26, x5 # mask high 3 bits
+beq x27, x5, load_x # check if it's a marked x
+add x3, x26, x0 #ADDED
+
+jal x0, skip_x
+
+load_x:
+add x3, x25, x0 # set initial value for x
+addi x31, x31, 4 # skip x marker
+
+skip_x:
+lw x4, 0(x31) # get next token (operator)
+addi x31, x31, 4
+
+beq x4, x10, division
+beq x4, x11, multiplication
+beq x4, x12, subtraction
+beq x4, x13, plus
+beq x4, x15, exponent
+beq x4, x0, plot_result
+
+plus:
+lw x5, 0(x31)
+addi x31, x31, 4
+add x3, x3, x5
+jal x0, plot_result
+
+subtraction:
+lw x5, 0(x31)
+addi x31, x31, 4
+sub x3, x3, x5
+jal x0, plot_result
+
+multiplication:
+lw x5, 0(x31) # load multiplier
+addi x31, x31, 4 # increment x31 pointer
+
+addi x6, x0, 0 # x6 = result accumulator = 0
+addi x7, x5, 0 # x7 = counter = multiplier
+
+ble x3, x0, mul_done # if multiplicand <= 0, skip
+beq x5, x0, mul_done # if multiplier == 0, result is 0
+mul_loop:
+add x6, x6, x3 # accumulate multiplicand
+addi x7, x7, -1 # decrement counter
+bgt x7, x0, mul_loop # loop until counter is 0
+
+mul_done:
+add x3, x6, x0 # move result to x3
+jal x0, plot_result # continue
+division:
+lw x5, 0(x31)
+addi x31, x31, 4
+
+addi x6, x0, 0 # quotient = 0
+ble x3, x0, div_done # skip if numerator <= 0
+beq x5, x0, div_done # skip if dividing by 0
+div_loop:
+sub x3, x3, x5
+blt x3, x0, div_done
+addi x6, x6, 1
+jal x0, div_loop
+
+div_done:
+add x3, x6, x0
+jal x0, plot_result
+
+exponent:
+lw x5, 0(x31) # Load exponent value
+addi x31, x31, 4
+
+addi x6, x0, 1 # x6 = result accumulator = 1
+
+beq x5, x0, exp_done # x^0 = 1
+beq x3, x0, exp_zero # 0^y = 0
+
+exp_outer_loop:
+addi x7, x0, 0 # x7 = inner product accumulator = 0
+addi x8, x0, 0 # x8 = inner loop counter = 0
+
+exp_inner_loop:
+add x7, x7, x6 # x7 += x6 (accumulating current product)
+addi x8, x8, 1 # increment inner loop counter
+blt x8, x3, exp_inner_loop # repeat until x8 == base (x3)
+
+add x6, x7, x0 # move product to result accumulator
+addi x5, x5, -1 # decrement exponent
+bgt x5, x0, exp_outer_loop # loop until exponent reaches 0
+
+add x3, x6, x0 # store final result in x3
+srai x3, x3, 5
+jal x0, plot_result
+
+exp_zero:
+addi x3, x0, 0
+srai x3, x3, 5
+jal x0, plot_result
+
+exp_done:
+addi x3, x0, 1
+srai x3, x3, 5
+jal x0, plot_result
+
+
+plot_result:
+# Check if user pressed "app" again
+#lw x20, 16(x0)
+#beq x20, x18, beginning
+# Transform coordinates to screen space with (60,60) origin
+# Screen x = x + 60
+addi x21, x25, 60 # x21 = screen x coordinate
+# Screen y = y + 60 (no inversion needed as per user request)
+addi x22, x3, 60 # x22 = screen y coordinate
+# Check if screen coordinates are within bounds
+# Skip if screen x < 0 or screen x >= 320
+blt x21, x0, graphing_loop
+addi x23, x0, 320
+bge x21, x23, graphing_loop
+# Skip if screen y < 0 or screen y >= 240
+blt x22, x0, graphing_loop
+addi x23, x0, 240
+bge x22, x23, graphing_loop
+# Safe to plot pixel
+addi x2, x0, 4 # White color for equation points
+sw x2, 4(x0)
+# Create pixel coordinates using transformed screen coordinates
+slli x6, x21, 16
+or x6, x6, x21
+slli x7, x22, 16
+or x7, x7, x22
+# Plot the point
+sw x6, 8(x0)
+sw x7, 12(x0)
+jal x0, graphing_loop
+
+halt_x_finished:
+lw x20, 16(x0)
+beq x20, x18, beginning
+jal x0, halt_x_finished
+
+#my code
+draw_exp:
+addi x25, x0, 2
+jal x1, mult3_seg
+jal x1, mult4_seg
+jal x0, window_shift
+
+draw0:
+addi x25, x0, 2
+jal x1, seg1
+jal x1, seg2
+jal x1, seg3
+jal x1, seg4
+jal x1, seg5
+jal x1, seg6
+jal x0, window_shift
+
+draw1:
+addi x25, x0, 2 #initialize black color register
+jal x1, seg4
+jal x1, seg5
+jal x0, window_shift
+
+draw2:
+addi x25, x0, 2
+jal x1, seg3
+jal x1, seg4
+jal x1, seg7
+jal x1, seg1
+jal x1, seg6
+jal x0, window_shift
+
+draw3:
+addi x25, x0, 2
+jal x1, seg3
+jal x1, seg4
+jal x1, seg7
+jal x1, seg5
+jal x1, seg6
+jal x0, window_shift
+
+draw4:
+addi x25, x0, 2
+jal x1, seg2
+jal x1, seg4
+jal x1, seg7
+jal x1, seg5
+jal x0, window_shift
+
+draw5:
+addi x25, x0, 2
+jal x1, seg3
+jal x1, seg2
+jal x1, seg7
+jal x1, seg5
+jal x1, seg6
+jal x0, window_shift
+
+draw6:
+addi x25, x0, 2
+jal x1, seg2
+jal x1, seg7
+jal x1, seg1
+jal x1, seg5
+jal x1, seg6
+jal x0, window_shift
+
+draw7:
+addi x25, x0, 2
+jal x1, seg3
+jal x1, seg4
+jal x1, seg5
+jal x0, window_shift
+
+draw8:
+addi x25, x0, 2
+jal x1, seg1
+jal x1, seg2
+jal x1, seg3
+jal x1, seg4
+jal x1, seg5
+jal x1, seg6
+jal x1, seg7
+jal x0, window_shift
+
+draw9:
+addi x25, x0, 2
+jal x1, seg2
+jal x1, seg3
+jal x1, seg4
+jal x1, seg7
+jal x1, seg5
+jal x0, window_shift
+
+draw_minus:
+addi x25, x0, 2
+jal x1, minus_seg
+jal x0, window_shift
+
+draw_add:
+addi x25, x0, 2
+jal x1, minus_seg
+jal x1, add_seg
+jal x0, window_shift
+
+draw_div:
+addi x25, x0, 2
+jal x1, div_seg
+jal x0, window_shift
+
+draw_mult:
+addi x25, x0, 2
+jal x1, seg7
+jal x1, multV_seg
+jal x1, mult1_seg
+jal x1, mult2_seg
+jal x1, mult3_seg
+jal x1, mult4_seg
+jal x0, window_shift
+
+draw_x:
+addi x25, x0, 2
+jal x1, div_seg
+jal x1, x_seg
+jal x0, window_shift
+
+draw_y:
+addi x25, x0, 4
+jal x1, seg2
+jal x1, seg7
+jal x1, seg4
+jal x1, seg5
+jal x1, seg6
+jal x0, window_shift_error
+
+draw_equals:
+addi x25, x0, 4
+jal x1, equals1_seg
+jal x1, equals2_seg
+jal x0, window_shift_error
+
+end_seg:
+jalr x0, x1, 0
+
+window_shift_error:
+addi x9, x9, 24
+jalr x0, x7, 0
+
+window_shift: #universal
+addi x9, x9, 24
+bge x9, x8, row_down
+jal x0, loading_loop
+
+row_down: #universal
+addi x9, x0, 16
+addi x19, x19, -32
+jal x0, loading_loop
+
+
+#minus_seg
+
+minus_seg:
+addi x23, x9, 18 #initialize x end register
+addi x24, x19, 13 #initialize y end register
+addi x26, x9, 0 #initialize start x coord register
+addi x27, x19, 10 #initialize start y coord register
+
+loop_minus_seg:
+beq x26, x23, end_seg
+slli x21, x26, 16 #double temp x
+slli x22, x27, 16 #double temp y
+add x21, x21, x26 #get final x coord bus
+add x22, x22, x27 #get final y coord bus
+sw x25, 4(x0)
+sw x21, 8(x0)
+sw x22, 12(x0)
+
+beq x27, x24, shift_minus_seg #if at top of 1 branch
+addi x27, x27, 1 #shift y up 1
+
+jal x0, loop_minus_seg
+
+shift_minus_seg: #reset y and increment x
+addi x26, x26, 1
+addi x27, x19, 10 #should match start y
+jal x0, loop_minus_seg
+
+
+#add_seg
+
+add_seg:
+addi x23, x9, 11 #initialize x end register
+addi x24, x19, 20 #initialize y end register
+addi x26, x9, 7 #initialize start x coord register
+addi x27, x19, 3 #initialize start y coord register
+
+loop_add_seg:
+beq x26, x23, end_seg
+slli x21, x26, 16 #double temp x
+slli x22, x27, 16 #double temp y
+add x21, x21, x26 #get final x coord bus
+add x22, x22, x27 #get final y coord bus
+sw x25, 4(x0)
+sw x21, 8(x0)
+sw x22, 12(x0)
+
+beq x27, x24, shift_add_seg #if at top of 1 branch
+addi x27, x27, 1 #shift y up 1
+
+jal x0, loop_add_seg
+
+shift_add_seg: #reset y and increment x
+addi x26, x26, 1
+addi x27, x19, 3 #should match start y
+jal x0, loop_add_seg
+
+#equals1_seg
+
+equals1_seg:
+addi x23, x9, 18 #initialize x end register
+addi x24, x19, 9 #initialize y end register
+addi x26, x9, 0 #initialize start x coord register
+addi x27, x19, 7 #initialize start y coord register
+
+loop_equals1_seg:
+beq x26, x23, end_seg
+slli x21, x26, 16 #double temp x
+slli x22, x27, 16 #double temp y
+add x21, x21, x26 #get final x coord bus
+add x22, x22, x27 #get final y coord bus
+sw x25, 4(x0)
+sw x21, 8(x0)
+sw x22, 12(x0)
+
+beq x27, x24, shift_equals1_seg #if at top of 1 branch
+addi x27, x27, 1 #shift y up 1
+
+jal x0, loop_equals1_seg
+
+shift_equals1_seg: #reset y and increment x
+addi x26, x26, 1
+addi x27, x19, 7 #should match start y
+jal x0, loop_equals1_seg
+
+#equals2_seg
+
+equals2_seg:
+addi x23, x9, 18 #initialize x end register
+addi x24, x19, 16 #initialize y end register
+addi x26, x9, 0 #initialize start x coord register
+addi x27, x19, 14 #initialize start y coord register
+
+loop_equals2_seg:
+beq x26, x23, end_seg
+slli x21, x26, 16 #double temp x
+slli x22, x27, 16 #double temp y
+add x21, x21, x26 #get final x coord bus
+add x22, x22, x27 #get final y coord bus
+sw x25, 4(x0)
+sw x21, 8(x0)
+sw x22, 12(x0)
+
+beq x27, x24, shift_equals2_seg #if at top of 1 branch
+addi x27, x27, 1 #shift y up 1
+
+jal x0, loop_equals2_seg
+
+shift_equals2_seg: #reset y and increment x
+addi x26, x26, 1
+addi x27, x19, 14 #should match start y
+jal x0, loop_equals2_seg
+
+#multV_seg
+
+multV_seg:
+addi x23, x9, 10 #initialize x end register
+addi x24, x19, 17 #initialize y end register
+addi x26, x9, 8 #initialize start x coord register
+addi x27, x19, 6 #initialize start y coord register
+
+loop_multV_seg:
+beq x26, x23, end_seg
+slli x21, x26, 16 #double temp x
+slli x22, x27, 16 #double temp y
+add x21, x21, x26 #get final x coord bus
+add x22, x22, x27 #get final y coord bus
+sw x25, 4(x0)
+sw x21, 8(x0)
+sw x22, 12(x0)
+
+beq x27, x24, shift_multV_seg #if at top of 1 branch
+addi x27, x27, 1 #shift y up 1
+
+jal x0, loop_multV_seg
+
+shift_multV_seg: #reset y and increment x
+addi x26, x26, 1
+addi x27, x19, 6 #should match start y
+jal x0, loop_multV_seg
+
+#div_seg duplicate
+x_seg:
+addi x23, x9, 3 #initialize x end register
+addi x26, x9, 21 #initialize start x coord register
+addi x27, x19, 0 #initialize start y coord register
+addi x24, x19, 2 #initialize end y
+
+loop_x_seg:
+beq x26, x23, end_seg
+slli x21, x26, 16 #double temp x
+slli x22, x27, 16 #double temp y
+add x21, x21, x26 #get final x coord bus
+add x22, x22, x27 #get final y coord bus
+sw x25, 4(x0)
+sw x21, 8(x0)
+sw x22, 12(x0)
+
+beq x27, x24, shift_x_seg #if at top of 1 branch
+addi x27, x27, 1 #shift y up 1
+
+jal x0, loop_x_seg
+
+shift_x_seg: #reset y and increment x
+addi x26, x26, -1
+addi x24, x27, 1 #should match start y
+jal x0, loop_x_seg
+
+div_seg:
+addi x23, x9, 21 #initialize x end register
+addi x26, x9, 3 #initialize start x coord register
+addi x27, x19, 0 #initialize start y coord register
+addi x24, x19, 2 #initialize end y
+
+loop_div_seg:
+beq x26, x23, end_seg
+slli x21, x26, 16 #double temp x
+slli x22, x27, 16 #double temp y
+add x21, x21, x26 #get final x coord bus
+add x22, x22, x27 #get final y coord bus
+sw x25, 4(x0)
+sw x21, 8(x0)
+sw x22, 12(x0)
+
+beq x27, x24, shift_div_seg #if at top of 1 branch
+addi x27, x27, 1 #shift y up 1
+
+jal x0, loop_div_seg
+
+shift_div_seg: #reset y and increment x
+addi x26, x26, 1
+addi x24, x27, 1 #should match start y
+jal x0, loop_div_seg
+
+#mult1_seg
+
+mult1_seg:
+addi x23, x9, 2 #initialize x end register
+addi x26, x9, 8 #initialize start x coord register
+addi x27, x19, 11 #initialize start y coord register
+addi x24, x27, 1 #initialize end y
+
+loop_mult1_seg:
+beq x26, x23, end_seg
+slli x21, x26, 16 #double temp x
+slli x22, x27, 16 #double temp y
+add x21, x21, x26 #get final x coord bus
+add x22, x22, x27 #get final y coord bus
+sw x25, 4(x0)
+sw x21, 8(x0)
+sw x22, 12(x0)
+
+beq x27, x24, shift_mult1_seg #if at top of 1 branch
+addi x27, x27, 1 #shift y up 1
+
+jal x0, loop_mult1_seg
+
+shift_mult1_seg: #reset y and increment x
+addi x26, x26, -1
+addi x24, x27, 1
+jal x0, loop_mult1_seg
+
+#mult2_seg
+
+mult2_seg:
+addi x23, x9, 15 #initialize x end register
+addi x26, x9, 9 #initialize start x coord register
+addi x27, x19, 12 #initialize start y coord register
+addi x24, x27, 1 #initialize end y
+
+loop_mult2_seg:
+beq x26, x23, end_seg
+slli x21, x26, 16 #double temp x
+slli x22, x27, 16 #double temp y
+add x21, x21, x26 #get final x coord bus
+add x22, x22, x27 #get final y coord bus
+sw x25, 4(x0)
+sw x21, 8(x0)
+sw x22, 12(x0)
+
+beq x27, x24, shift_mult2_seg #if at top of 1 branch
+addi x27, x27, 1 #shift y up 1
+
+jal x0, loop_mult2_seg
+
+shift_mult2_seg: #reset y and increment x
+addi x26, x26, 1
+addi x24, x27, 1
+jal x0, loop_mult2_seg
+
+#mult3_seg
+
+mult3_seg:
+addi x23, x9, 2 #initialize x end register
+addi x26, x9, 8 #initialize start x coord register
+addi x27, x19, 10 #initialize start y coord register
+addi x24, x27, 1 #initialize end y
+
+loop_mult3_seg:
+beq x26, x23, end_seg
+slli x21, x26, 16 #double temp x
+slli x22, x27, 16 #double temp y
+add x21, x21, x26 #get final x coord bus
+add x22, x22, x27 #get final y coord bus
+sw x25, 4(x0)
+sw x21, 8(x0)
+sw x22, 12(x0)
+
+beq x27, x24, shift_mult3_seg #if at top of 1 branch
+addi x27, x27, 1 #shift y up 1
+
+jal x0, loop_mult3_seg
+
+shift_mult3_seg: #reset y and increment x
+addi x26, x26, -1
+addi x24, x27, -1
+addi x27, x27, -2
+jal x0, loop_mult3_seg
+
+#mult4_seg
+
+mult4_seg:
+addi x23, x9, 15 #initialize x end register
+addi x26, x9, 9 #initialize start x coord register
+addi x27, x19, 11 #initialize start y coord register
+addi x24, x27, 1 #initialize end y
+
+loop_mult4_seg:
+beq x26, x23, end_seg
+slli x21, x26, 16 #double temp x
+slli x22, x27, 16 #double temp y
+add x21, x21, x26 #get final x coord bus
+add x22, x22, x27 #get final y coord bus
+sw x25, 4(x0)
+sw x21, 8(x0)
+sw x22, 12(x0)
+
+beq x27, x24, shift_mult4_seg #if at top of 1 branch
+addi x27, x27, 1 #shift y up 1
+
+jal x0, loop_mult4_seg
+
+shift_mult4_seg: #reset y and increment x
+addi x26, x26, 1
+addi x24, x27, -1
+addi x27, x27, -2
+jal x0, loop_mult4_seg
+
+#seg1
+
+seg1:
+addi x23, x9, 3 #initialize x end register
+addi x24, x19, 13 #initialize y end register
+addi x26, x9, 0 #initialize start x coord register
+addi x27, x19, 0 #initialize start y coord register
+
+loop_seg1:
+beq x26, x23, end_seg
+slli x21, x26, 16 #double temp x
+slli x22, x27, 16 #double temp y
+add x21, x21, x26 #get final x coord bus
+add x22, x22, x27 #get final y coord bus
+sw x25, 4(x0)
+sw x21, 8(x0)
+sw x22, 12(x0)
+
+beq x27, x24, shift_seg1 #if at top of 1 branch
+addi x27, x27, 1 #shift y up 1
+
+jal x0, loop_seg1
+
+shift_seg1: #reset y and increment x
+addi x26, x26, 1
+addi x27, x19, 0 #should match start y
+jal x0, loop_seg1
+
+
+#seg2
+
+seg2:
+addi x23, x9, 3 #initialize x end register
+addi x24, x19, 23 #initialize y end register
+addi x26, x9, 0 #initialize start x coord register
+addi x27, x19, 10 #initialize start y coord register
+
+loop_seg2:
+beq x26, x23, end_seg
+slli x21, x26, 16 #double temp x
+slli x22, x27, 16 #double temp y
+add x21, x21, x26 #get final x coord bus
+add x22, x22, x27 #get final y coord bus
+sw x25, 4(x0)
+sw x21, 8(x0)
+sw x22, 12(x0)
+
+beq x27, x24, shift_seg2 #if at top of 1 branch
+addi x27, x27, 1 #shift y up 1
+
+jal x0, loop_seg2
+
+shift_seg2: #reset y and increment x
+addi x26, x26, 1
+addi x27, x19, 10 #should match start y
+jal x0, loop_seg2
+
+
+#seg3
+
+seg3:
+addi x23, x9, 18 #initialize x end register
+addi x24, x19, 23 #initialize y end register
+addi x26, x9, 0 #initialize start x coord register
+addi x27, x19, 21 #initialize start y coord register
+
+loop_seg3:
+beq x26, x23, end_seg
+slli x21, x26, 16 #double temp x
+slli x22, x27, 16 #double temp y
+add x21, x21, x26 #get final x coord bus
+add x22, x22, x27 #get final y coord bus
+sw x25, 4(x0)
+sw x21, 8(x0)
+sw x22, 12(x0)
+
+beq x27, x24, shift_seg3 #if at top of 1 branch
+addi x27, x27, 1 #shift y up 1
+
+jal x0, loop_seg3
+
+shift_seg3: #reset y and increment x
+addi x26, x26, 1
+addi x27, x19, 21 #should match start y
+jal x0, loop_seg3
+
+
+#seg4
+
+seg4:
+addi x23, x9, 18 #initialize x end register
+addi x24, x19, 23 #initialize y end register
+addi x26, x9, 15 #initialize start x coord register
+addi x27, x19, 10 #initialize start y coord register
+
+loop_seg4:
+beq x26, x23, end_seg
+slli x21, x26, 16 #double temp x
+slli x22, x27, 16 #double temp y
+add x21, x21, x26 #get final x coord bus
+add x22, x22, x27 #get final y coord bus
+sw x25, 4(x0)
+sw x21, 8(x0)
+sw x22, 12(x0)
+
+beq x27, x24, shift_seg4 #if at top of 1 branch
+addi x27, x27, 1 #shift y up 1
+
+jal x0, loop_seg4
+
+shift_seg4: #reset y and increment x
+addi x26, x26, 1
+addi x27, x19, 10 #should match start y
+jal x0, loop_seg4
+
+#seg5
+
+seg5:
+addi x23, x9, 18 #initialize x end register
+addi x24, x19, 13 #initialize y end register
+addi x26, x9, 15 #initialize start x coord register
+addi x27, x19, 0 #initialize start y coord register
+
+loop_seg5:
+beq x26, x23, end_seg
+slli x21, x26, 16 #double temp x
+slli x22, x27, 16 #double temp y
+add x21, x21, x26 #get final x coord bus
+add x22, x22, x27 #get final y coord bus
+sw x25, 4(x0)
+sw x21, 8(x0)
+sw x22, 12(x0)
+
+beq x27, x24, shift_seg5 #if at top of 1 branch
+addi x27, x27, 1 #shift y up 1
+
+jal x0, loop_seg5
+
+shift_seg5: #reset y and increment x
+addi x26, x26, 1
+addi x27, x19, 0 #should match start y
+jal x0, loop_seg5
+
+#seg6
+
+seg6:
+addi x23, x9, 18 #initialize x end register
+addi x24, x19, 2 #initialize y end register
+addi x26, x9, 0 #initialize start x coord register
+addi x27, x19, 0 #initialize start y coord register
+
+loop_seg6:
+beq x26, x23, end_seg
+slli x21, x26, 16 #double temp x
+slli x22, x27, 16 #double temp y
+add x21, x21, x26 #get final x coord bus
+add x22, x22, x27 #get final y coord bus
+sw x25, 4(x0)
+sw x21, 8(x0)
+sw x22, 12(x0)
+
+beq x27, x24, shift_seg6 #if at top of 1 branch
+addi x27, x27, 1 #shift y up 1
+
+jal x0, loop_seg6
+
+shift_seg6: #reset y and increment x
+addi x26, x26, 1
+addi x27, x19, 0 #should match start y
+jal x0, loop_seg6
+
+#seg7
+
+seg7:
+addi x23, x9, 18 #initialize x end register
+addi x24, x19, 12 #initialize y end register
+addi x26, x9, 0 #initialize start x coord register
+addi x27, x19, 11 #initialize start y coord register
+
+loop_seg7:
+beq x26, x23, end_seg
+slli x21, x26, 16 #double temp x
+slli x22, x27, 16 #double temp y
+add x21, x21, x26 #get final x coord bus
+add x22, x22, x27 #get final y coord bus
+sw x25, 4(x0)
+sw x21, 8(x0)
+sw x22, 12(x0)
+
+beq x27, x24, shift_seg7 #if at top of 1 branch
+addi x27, x27, 1 #shift y up 1
+
+jal x0, loop_seg7
+
+shift_seg7: #reset y and increment x
+addi x26, x26, 1
+addi x27, x19, 10 #should match start y
+jal x0, loop_seg7
 
             </pre>
         </div>
