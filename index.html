@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Graphing Calculator with RISC-V 32 Bit Super Scalar CPU with I-cache and Optimized Instruction Set - Omar Habli's Projects</title>
+    <title>Graphing Calculator ASIC with RISC-V 32 Bit with extended Instruction Set - Omar Habli's Projects</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         /* General Body Styling */
@@ -153,12 +153,10 @@
         <ul class="bullet-list">
 			<li>YouTube demo: https://www.youtube.com/watch?v=B1m-cUdcgSg</li>
 			<li>Final Presentation: https://docs.google.com/presentation/d/10imhudLxiSTwt-bNoYZ7AmsZal4b7ZP1pOPk0xVUYAw/edit?usp=sharing</li>
-            <li>Created RTL block diagrams for a RISC-V single-cycle CPU, QSPI/UART peripherals, and MMIO interface.</li>
-            <li>Extended CPU into a superscalar architecture with an instruction scheduler for increased parallelism.</li>
-            <li>Designed a custom instruction cache (I-Cache) to reduce fetch latency and boost throughput.</li>
+            <li>Created RTL block diagrams for a RISC-V single-cycle CPU, QSPI peripherals, and MMIO interface.</li>
             <li>Used memory-mapped I/O (MMIO) to communicate with a request unit, keypad, screen, and RAM (via Wishbone bus).</li>
-            <li>Integrated QSPI and UART interfaces for real-time input and output with the user-controlled LCD screen.</li>
-            <li>Built multiply and floating-point extensions into the CPU’s instruction set based on RISC-V standards.</li>
+            <li>Integrated QSPI interfaces for real-time output with the user-controlled LCD screen.</li>
+            <li>Built multiply extensions into the CPU’s instruction set based on RISC-V standards.</li>
             <li>Deployed the full system on silicon using the Caravel SoC for ASIC fabrication as part of Purdue’s NEBULA III initiative.</li>
             <li>Project GitHub. Source code and test benches within verilog/rtl/team_projects/team_04/src and verilog/dv/team_04/module_tests: 
                 <a href="https://github.com/STARS-Design-Track-2025/nebula-iii-team-04" target="_blank" style="color: #fdd835; font-weight: bold;">
